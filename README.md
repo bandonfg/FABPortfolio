@@ -1,5 +1,5 @@
 # FABPortfolio
-Portfolio Website
+Portfolio Website developed using ASP.Net Core 2.1 Web API, Angular 6, Bootstrap 4, SQLite and MySql
 
 Initial Commit contains the following updates/changes:
 - ASP.Net Core 2.1 Back-end API 
