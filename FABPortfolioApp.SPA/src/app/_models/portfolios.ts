@@ -1,4 +1,4 @@
-import { PortfolioPicture } from './portfolioPicture';
+import { PortfolioFile } from './portfolioFile';
 export interface Portfolios {
   id: number;
   project: string;
@@ -6,8 +6,6 @@ export interface Portfolios {
   projDuration: string;
   company: string;
   location: string;
-  portfolioPictures?: PortfolioPicture;
+  portfolioFiles?: PortfolioFile;
 
 }
-
-// portfolioPictureId: number;

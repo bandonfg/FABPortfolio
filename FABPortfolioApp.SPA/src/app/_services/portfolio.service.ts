@@ -3,7 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 
 import { Portfolio } from '../_models/portfolio';
-import { PortfolioPicture } from '../_models/portfolioPicture';
+import { PortfolioFile } from '../_models/portfolioFile';
 import { PaginatedResult } from '../_models/pagination';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -23,6 +23,11 @@ export class PortfolioService {
   /////////////////////////////////
 
   // GET api/portfolio - get all portfolios
+  getPortfolios() {
+    return this.http.get<Portfolio[]>(this.baseUrl);
+  }
+
+  /* paginated code with error
   getPortfolios(page?, itemsPerPage?, portfolioParams?): Observable<PaginatedResult<Portfolio[]>> {
     const paginatedResult: PaginatedResult<Portfolio[]> = new PaginatedResult<Portfolio[]>();
 
@@ -44,6 +49,7 @@ export class PortfolioService {
          })
       );
   }
+  */
 
   // GET api/portfolio - get all portfolio and picture(s) by id
   getPortfoliosById(id: number) {
@@ -72,7 +78,7 @@ export class PortfolioService {
   /// Portfolio Picture Service Methods ///
   /////////////////////////////////////////
   // POST api/portfolio/picture
-  addPortfolioPicture(folioPic: PortfolioPicture) {
+  addPortfolioPicture(folioPic: PortfolioFile) {
     return this.http.post(this.baseUrl + '/picture', folioPic);
   }
 

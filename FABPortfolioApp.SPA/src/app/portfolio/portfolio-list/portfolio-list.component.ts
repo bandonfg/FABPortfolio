@@ -11,6 +11,7 @@ import { Portfolio } from '../../_models/portfolio';
 import { PortfolioService } from '../../_services/portfolio.service';
 import { AlertifyService } from '../../_services/alertify.service';
 import { Pagination, PaginatedResult } from '../../_models/pagination';
+import { PortfolioFile } from '../../_models/portfolioFile';
 
 @Component({
   selector:     'app-portfolio',
@@ -25,9 +26,8 @@ export class PortfolioListComponent implements OnInit {
   loggedUser: any;
 
   portfolioParams: any = {};
-  public portfolios: Portfolio[] = [];
+  portfolios: Portfolio[] = [];
   pagination: Pagination;
-
 
   constructor(
     private http: HttpClient,
@@ -37,12 +37,13 @@ export class PortfolioListComponent implements OnInit {
     ) {}
 
   ngOnInit() {
+    /* pagination related code 
     this.route.data.subscribe(data => {
       this.portfolios = data['portfolios'].result;
       this.pagination = data['portfolios'].pagination;
     });
-
-    // this.loadAllPortfolios();
+    */
+    this.loadAllPortfolios();
   }
 
   loggedIn() {
@@ -58,6 +59,16 @@ export class PortfolioListComponent implements OnInit {
   }
 
   loadAllPortfolios() {
+    this.portfolioService.getPortfolios()
+    .subscribe( (res: Portfolio[]) => {
+      this.portfolios = res;
+      console.log('portfolios loaded.');
+    }, error => {
+      console.log('portfolio load error: ' + error);
+    });
+
+
+    /* paginated code not yet working
     this.portfolioService.getPortfolios(this.pagination.currentPage, this.pagination.itemPerPage, this.portfolioParams)
     .subscribe( (res: PaginatedResult<Portfolio[]>) => {
       this.portfolios = res.results;
@@ -66,6 +77,8 @@ export class PortfolioListComponent implements OnInit {
     }, error => {
       console.log('portfolio load error: ' + error);
     });
+    */
+
   }
 
   // DELETE api/portfolio/{srcTable}/{id}

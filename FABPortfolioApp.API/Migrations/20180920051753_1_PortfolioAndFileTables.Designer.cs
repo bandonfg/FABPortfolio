@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FABPortfolioApp.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20180918071508_1_PortfolioAndFileTables")]
+    [Migration("20180920051753_1_PortfolioAndFileTables")]
     partial class _1_PortfolioAndFileTables
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

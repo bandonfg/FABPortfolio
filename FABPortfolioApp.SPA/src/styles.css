@@ -7,7 +7,9 @@
 /* End of Google Fonts */
 
 /* bootstrap */
-@import url("bootstrap/dist/css/bootstrap.min.css");
+@import url("../node_modules/bootstrap/dist/css/bootstrap.min.css");
+
+/* themestr.app custom bootstrap theme */
 @import url('./assets/css/themestr.app/grayson_themestr.app.css');
 
 /* bootswatch */

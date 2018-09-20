@@ -3,9 +3,11 @@ import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { MemberRegistrationComponent } from './members/member-registration/member-registration.component';
 
-import { PortfolioCreateComponent } from './portfolio/portfolio-create/portfolio-create.component';
-import { PortfolioListComponent } from './portfolio/portfolio-list/portfolio-list.component';
+// Portfolio Components
 import { PortfolioListResolver } from './_resolvers/portfolio-list.resolver';
+import { PortfolioListComponent } from './portfolio/portfolio-list/portfolio-list.component';
+import { PortfolioDetailComponent } from './portfolio/portfolio-detail/portfolio-detail.component';
+import { PortfolioCreateComponent } from './portfolio/portfolio-create/portfolio-create.component';
 
 export const appRoutes: Routes = [
     {path: '', component: HomeComponent},
@@ -15,6 +17,7 @@ export const appRoutes: Routes = [
     {path: 'portfolio/create', component: PortfolioCreateComponent},
     {path: 'portfolio', component: PortfolioListComponent,
         resolve: {portfolios: PortfolioListResolver}},
+    {path: 'portfolio/detail', component: PortfolioDetailComponent},
 
     {path: '**', redirectTo: '', pathMatch: 'full'},
 ];

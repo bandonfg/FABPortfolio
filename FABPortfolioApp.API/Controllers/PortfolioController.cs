@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
+using DatingApp.API.Dtos;
 using FABPortfolioApp.API.Data;
+using FABPortfolioApp.API.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -15,10 +18,12 @@ namespace FABPortfolioApp.API.Controllers
     public class PortfolioController : ControllerBase
     {
         private readonly IPortfolioRepository _repo;
+        private readonly IMapper _mapper;
 
         // constructor
-        public PortfolioController(IPortfolioRepository repo)
+        public PortfolioController(IPortfolioRepository repo, IMapper mapper)
         {
+            _mapper = mapper;
             _repo = repo;
         }
 
@@ -26,7 +31,10 @@ namespace FABPortfolioApp.API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetPortfolios()
         {
-            var portfolios = await _repo.GetPortfolios();
+            var portfoliosFromRepo = await _repo.GetPortfolios();
+            // use custom DTos to limit fields to display
+            // ex. var portfolios = _mapper.Map<IEnumerable<PortfolioForCreationDto>>(portfoliosFromRepo);
+            var portfolios = _mapper.Map<IEnumerable<Portfolio>>(portfoliosFromRepo);
             return Ok(portfolios);
         }
 
@@ -39,9 +47,16 @@ namespace FABPortfolioApp.API.Controllers
         }
 
         // POST api/values
-        [HttpPost]
-        public void Post([FromBody]string value)
+        [HttpPost("/create")]
+        public async Task<IActionResult> CreatePortfolio(PortfolioForCreationDto portfolioForCreation)
         {
+            var newPortfolio = _mapper.Map<Portfolio>(portfolioForCreation);
+            _repo.Add<Portfolio>(newPortfolio);
+
+            if ( await _repo.SaveAll() )
+                return Ok();
+                
+            return BadRequest();
         }
 
         // PUT api/values/5

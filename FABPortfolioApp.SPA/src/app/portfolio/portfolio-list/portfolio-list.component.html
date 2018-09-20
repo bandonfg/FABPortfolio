@@ -1,42 +1,55 @@
 
 
-<a *ngIf="loggedIn()" class="btn btn-sm btn-outline-secondary mb-2" 
-    [routerLink]="['/portfolio']">
-    <i class="fa fa-plus-square"></i> Create Portfolio   
-</a>
+<section class="resume-section p-3 p-lg-5 d-flex flex-column" id="experience">
+  <div class="my-auto">
+    <h2 class="mb-5">Portfolio</h2>
 
-<div class="card-columns">
-    <div *ngFor="let portfolio of portfolios" class="card mb-4" style="max-width: 22rem;">
-        <img class="card-img-top img-fluid"  src="{{ folioPicUrl + '/' +  portfolio.portfolioPictures[0].pictureFileName}}" alt="Card image cap">
+    <!-- show portfolio related links 
+    *ngIf="loggedIn()" 
+    -->
+    <a class="btn btn-sm btn-outline-secondary mb-2" 
+        [routerLink]="['/portfolio/create']">
+        <i class="fa fa-plus-square"></i> Create Portfolio   
+    </a>
 
-        <div class="card-body">
-          <h5 class="card-title">{{portfolio.project}} <small class="pull-right">{{portfolio.projDuration}}</small></h5>
-          <h6 class="card-subtitle mb-2 text-muted">
-            {{portfolio.company}} - {{portfolio.location}}
-          </h6>
-          <p class="card-text">{{portfolio.description}}</p>
+    <!-- show portfolios using bootstrap cards -->
+    <div class="card-deck animated bounceInDown">
+        <div *ngFor="let portfolio of portfolios" class="card mb-4" style="min-width: 22rem; max-width: 22rem; ">
 
-          <div *ngIf="loggedIn()" class="btn-group pull-right mb-2">
-              <!-- 
-                Passing Route Parameters in Angular Component
-                https://angular-2-training-book.rangle.io/handout/routing/query_params.html  
-              -->
-              <a class="btn btn-sm btn-outline-secondary" [routerLink]="['/portfolio']" 
+            <a [routerLink]="['/portfolio/detail/']" [queryParams]="{ id: portfolio.id}">
+               <img class="card-img-top" style="height: 15rem;" src="{{ folioPicUrl + '/' +  portfolio.portfolioFiles[0].fileName}}" alt="Portfolio image">
+            </a>
+          
+            <div class="card-body">
+                <h5 class="card-title">{{portfolio.project}} <small class="pull-right">{{portfolio.from}} - {{portfolio.to}}</small></h5>
+                <h6 class="card-subtitle mb-2 text-muted">
+                  {{portfolio.company}} - {{portfolio.location}}
+                </h6>
+            </div><!-- /# <div class='card-body'>  --> 
+            <div class="card-footer">
+              <!-- *ngIf="loggedIn()" -->
+              <div  class="btn-group pull-right">
+                <!-- 
+                  Comment block here:  Passing Route Parameters in Angular Component
+                  Comment block here:  https://angular-2-training-book.rangle.io/handout/routing/query_params.html  
+                -->    
+                <a class="btn btn-outline-secondary" [routerLink]="['/portfolio']" 
                   [queryParams]="{ idToEdit: portfolio.id, 
-                                  project: portfolio.project,   
-                                  description: portfolio.description,   
-                                  projDuration: portfolio.projDuration,
-                                  durationFrom: portfolio.durationFrom,
-                                  durationTo: portfolio.durationTo,
-                                  company: portfolio.company,
-                                  location: portfolio.location }">
-                    Edit    
-              </a>
-              <button class="btn btn-sm btn-outline-danger" (click)="deletePortfolio(portfolio.id)">Delete</button>
-          </div>
-        </div>
-    </div>
-</div>    
+                                    project: portfolio.project,   
+                                    description: portfolio.portfolioFiles[0].description,   
+                                    from: portfolio.from,
+                                    to: portfolio.to,
+                                    company: portfolio.company,
+                                    location: portfolio.location,
+                                    url: portfolio.url,
+                                    portfolioFiles: portfolio.portfolioFiles }">
+                      Edit    
+                </a>
+                  <button class="btn btn-outline-danger" (click)="deletePortfolio(portfolio.id)">Delete</button>
+              </div><!-- /# card-body -->
+            </div><!-- /# card-footer -->  
+        </div> <!-- /# ngFor -->
+    </div> <!-- /# card-deck -->     
 
 
 <!-- div class="d-flex justify-content-center">
@@ -93,3 +106,6 @@ as of 9-8-2018, this is the original portfolio-list source code
 </div>    
 
 -->
+
+</div> <!-- /#<div class="my-auto"> -->
+</section>    

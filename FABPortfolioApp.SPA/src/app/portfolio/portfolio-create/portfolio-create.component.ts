@@ -8,7 +8,7 @@ import { Portfolio } from '../../_models/portfolio';
 import {HttpClient, HttpParams, HttpRequest, HttpEvent, HttpEventType, HttpResponse} from '@angular/common/http';
 import { UtilityService } from '../../_services/utility.service';
 import { environment } from '../../../environments/environment';
-import { PortfolioPicture } from '../../_models/portfolioPicture';
+import { PortfolioFile } from '../../_models/portfolioFile';
 import { Portfolios } from '../../_models/portfolios';
 
 @Component({
@@ -53,11 +53,11 @@ export class PortfolioCreateComponent implements OnInit {
     this.folioForm = this.formBuilder.group({
       project:        ['', [ Validators.required, Validators.minLength(2), Validators.maxLength(200) ]],
       description:    ['', [ Validators.required, Validators.minLength(2), Validators.maxLength(1000)]],
-      projDuration:   [''],
-      durationFrom:   ['', Validators.required],
-      durationTo:     ['', Validators.required],
-      company:        ['', Validators.required],
-      location:       ['', Validators.required]
+      from:           ['', [Validators.required]],
+      to:             ['', [Validators.required]],
+      company:        ['', [Validators.required]],
+      location:       ['', [Validators.required]],
+      url:            ['']
       // portfolioPictures:['', Validators.required]
     });
 
@@ -69,20 +69,26 @@ export class PortfolioCreateComponent implements OnInit {
           .subscribe(params => {
           // Defaults to 0 if no query param provided.
           this.idToEdit = params['idToEdit'] || 0;
-
           this.folioForm.controls['project'].setValue( params['project'] || '' );
           this.folioForm.controls['description'].setValue( params['description'] || '' );
+          this.folioForm.controls['from'].setValue( params['from'] || '' );
+          this.folioForm.controls['to'].setValue( params['to'] || '' );
+          this.folioForm.controls['company'].setValue( params['company'] || '' );
+          this.folioForm.controls['location'].setValue( params['location'] || '' );
+          this.folioForm.controls['url'].setValue( params['url'] || '' );
+        });
 
+
+          /*
           this.workDuration = params['projDuration'] || '';
           this.folioForm.controls['projDuration'].setValue(this.workDuration);
           this.folioForm.controls['durationFrom']
               .setValue( this.workDuration.substr(0, this.workDuration.indexOf('-') )  || '' );
           this.folioForm.controls['durationTo']
               .setValue( this.workDuration.substring(this.workDuration.indexOf('-') + 1)  || '' );
+          */
 
-          this.folioForm.controls['company'].setValue( params['company'] || '' );
-          this.folioForm.controls['location'].setValue( params['location'] || '' );
-      });
+
 
     if (this.idToEdit > 0) {
       this.getPortfolioPictures(this.idToEdit);
@@ -99,7 +105,9 @@ export class PortfolioCreateComponent implements OnInit {
 
       this.folio = Object.assign({}, this.folioForm.value);
       // make username same as the registered email address
-      this.folio.projDuration = this.folioForm.get('durationFrom').value + ' - '  +  this.folioForm.get('durationTo').value;
+
+      // field for removal
+      // this.folio.projDuration = this.folioForm.get('durationFrom').value + ' - '  +  this.folioForm.get('durationTo').value;
 
       // Create new portfolio (this.idToEdit is 0)
       if (this.idToEdit === 0) {

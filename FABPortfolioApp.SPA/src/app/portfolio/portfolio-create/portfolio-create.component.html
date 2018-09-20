@@ -26,37 +26,35 @@
 
                     <form  [formGroup]="folioForm" (ngSubmit)="submitPortfolioEntries()" >
                       <div class="form-group">
-                          <label for="project" class="text-dark font-weight-normal" [ngClass]="{'text-primary font-weight-bold': f.project.touched && f.project.errors}">Project</label> 
-                          <input formControlName="project" 
-                                [ngClass]="{'is-invalid': f.project.touched && f.project.errors}" 
-                                placeholder="Portfolio Name" class="form-control form-control-sm" type="text"> 
-                          <div *ngIf="f.project.touched && f.project.errors" class="invalid-feedback">
-                              <div *ngIf="f.project.errors.required">Portfolio name is required!</div>
+                          <label for="project" class="text-dark font-weight-normal" [ngClass]="{'text-primary font-weight-bold': folioForm.get('project').touched && folioForm.get('project').errors}">Project</label> 
+                          <input formControlName="project" [ngClass]="{'is-invalid': folioForm.get('project').touched && folioForm.get('project').errors}" placeholder="Portfolio Name" class="form-control form-control-sm" type="text">
+                          <div *ngIf="folioForm.get('project').touched && folioForm.get('project').errors" class="invalid-feedback">
+                              <div *ngIf="folioForm.get('project').hasError('required')">Portfolio name is required!</div>
                           </div>
-                      </div>    
-                
+                      </div>
+                      
                       <div class="form-group">
-                        <label for="description" class="text-dark font-weight-normal" [ngClass]="{'text-primary font-weight-bold': f.description.touched && f.description.errors}">Description</label> 
-                        <textarea formControlName="description" [ngClass]="{'is-invalid': f.description.touched && f.description.errors}" 
+                        <label for="description" class="text-dark font-weight-normal" [ngClass]="{'text-primary font-weight-bold': folioForm.get('description').touched && folioForm.get('description').errors}">Description</label> 
+                        <textarea formControlName="description" [ngClass]="{'is-invalid': folioForm.get('description').touched && folioForm.get('description').errors}" 
                           class="form-control form-control-sm" rows="4" placeholder="Enter portfolio description" ></textarea>
-                        <div *ngIf="f.description.touched && f.description.errors" class="invalid-feedback">
-                            <div *ngIf="f.description.errors.required">Portfolio description is required!</div>
+                        <div *ngIf="folioForm.get('description').touched && folioForm.get('description').errors" class="invalid-feedback">
+                            <div *ngIf="folioForm.get('description').hasError('required')">Portfolio description is required!</div>
                         </div>
                       </div>
         
                       <div class="form-group">
-                        <label for="durationFrom" class="text-dark font-weight-normal" [ngClass]="{'text-primary font-weight-bold': f.durationFrom.touched && f.durationFrom.errors || f.durationTo.touched && f.durationTo.errors}">Work Duration</label> 
+                        <label for="from" class="text-dark font-weight-normal" [ngClass]="{'text-primary font-weight-bold': f.from.touched && f.from.errors || f.to.touched && f.to.errors}">Work Duration</label> 
                         <div class="input-group">
-                            <input formControlName="durationFrom" [ngClass]="{'is-invalid': f.durationFrom.touched && f.durationFrom.errors}" 
+                            <input formControlName="from" [ngClass]="{'is-invalid': f.from.touched && f.from.errors}" 
                               placeholder="From" class="form-control form-control-sm" type="text">
-                            <input formControlName="durationTo" [ngClass]="{'is-invalid': f.durationTo.touched && f.durationTo.errors}"  
+                            <input formControlName="to" [ngClass]="{'is-invalid': f.to.touched && f.to.errors}"  
                               placeholder="To" class="form-control form-control-sm" type="text">
                         </div>
-                        <div *ngIf="f.durationFrom.touched && f.durationFrom.errors" class="text-danger">
-                            <small *ngIf="f.durationFrom.errors.required">Duration from is required!</small>
+                        <div *ngIf="f.from.touched && f.from.errors" class="text-danger">
+                            <small *ngIf="f.from.errors.required">Duration from is required!</small>
                         </div>
-                        <div *ngIf="f.durationTo.touched && f.durationTo.errors" class="text-danger">
-                            <small *ngIf="f.durationTo.errors.required">Duration to is required!</small>
+                        <div *ngIf="f.to.touched && f.to.errors" class="text-danger">
+                            <small *ngIf="f.to.errors.required">Duration to is required!</small>
                         </div>
                       </div>
   
@@ -104,8 +102,8 @@
                   </div>
                   
                   <div class="card-columns">
-                      <div *ngFor="let folioPic of folioPicsToList.portfolioPictures" class="card text-center">
-                          <img class="img-fluid " src="{{ folioPicUrl + '/' +  folioPic.pictureFileName}}">
+                      <div *ngFor="let folioPic of folioPicsToList.portfolioFiles" class="card text-center">
+                          <img class="img-fluid " src="{{ folioPicUrl + '/' +  folioPic.fileName}}">
                           <div class="card-body">
                             <div class="btn-group mb-1">
                                 <button class="btn btn-sm btn-outline-danger" (click)="deletePortfolioPicture(folioPic.id)">
