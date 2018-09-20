@@ -1,0 +1,25 @@
+/* You can add global styles to this file, and also import other style files */
+
+/* Google Fonts  */
+@import url('https://fonts.googleapis.com/css?family=Saira+Extra+Condensed:100,200,300,400,500,600,700,800,900');
+
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i');
+/* End of Google Fonts */
+
+/* bootstrap */
+@import url("bootstrap/dist/css/bootstrap.min.css");
+@import url('./assets/css/themestr.app/grayson_themestr.app.css');
+
+/* bootswatch */
+/*@import url("bootswatch/dist/flatly/bootstrap.min.css"); */
+
+/* font-awesome */
+@import url("font-awesome/css/font-awesome.min.css");
+
+@import url('./assets/css/resume.min.css');
+
+/* AlertifyJS CSS Themes or Styles */
+@import '../node_modules/alertifyjs/build/css/alertify.min.css';
+@import '../node_modules/alertifyjs/build/css/themes/bootstrap.min.css';
+/* End of AlertifyJS CSS Themes or Styles */
+

@@ -1,0 +1,248 @@
+
+<div class="sticky-top alert alert-light pull-right">
+
+    <a *ngIf="!loggedIn()" class="btn btn-sm btn-outline-secondary pull-right " [routerLink]="['/member//login']">
+      <i class="fa fa-sign-in"></i> Login   
+    </a>
+
+    <div *ngIf="loggedIn()" class="btn-group pull-right" >
+        <button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Welcome {{ this.loggedUser.firstName }}
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <a class="dropdown-item" href="#">
+              <i class="fa fa-user"></i> Update Account</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item"  (click)="logout()">
+              <i class="fa fa-sign-out"></i> Logout   
+            </a>
+          </div>
+    </div>
+
+</div>
+
+<div class="p-3 p-lg-5 " >
+  <section class="resume-section d-flex d-column " id="about">
+    
+    <div class="my-auto">
+
+      
+
+      <h1 class="mb-0 animated fadeInDown faster">Francis Albert
+          <span class="text-primary ">Bandong</span>
+      </h1>
+
+      <div class="subheading mb-5">219 Sitio Balani, Ambonao Calasiao, Pangasinan Philippines 2418 · 
+        <a href="mailto:bandz_fab@yahoo.com">bandz_fab@yahoo.com</a>
+      </div>
+      <p class="mb-5">
+        I'm a self-motivated .net developer and technology driven professional. 
+  
+        I use the following technologies/frameworks to develop line of business applications:<br/> 
+        <strong>
+          C#, ASP.Net Web Forms|MVC|Core 2, JavaScript, Angular, BootStrap, VB.Net, VBA, NativeScript with Angular, SQL Server, MS-Access, SQLite<br/> 
+        </strong><br/>
+        
+        I have also found myself working a lot with Angular 2/5/6, Web Services and APIs. 
+      </p>
+  
+      <ul class="list-inline list-social-icons mb-0 ">
+        <li class="list-inline-item animated swing">
+          <a href="https://www.linkedin.com/in/francis-albert-bandong-9b042854/">
+            <span class="fa-stack fa-lg">
+              <i class="fa fa-circle fa-stack-2x"></i>
+              <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+            </span>
+          </a>
+        </li>
+        <li class="list-inline-item  animated swing">
+          <a href="#">
+            <span class="fa-stack fa-lg">
+              <i class="fa fa-circle fa-stack-2x"></i>
+              <i class="fa fa-id-card fa-stack-1x fa-inverse"></i>
+            </span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </section>
+  
+  <section class="resume-section p-3 p-lg-5 d-flex flex-column" id="experience">
+    <div class="my-auto">
+      <h2 class="mb-5">Experience</h2>
+  
+      <div class="resume-item d-flex flex-column flex-md-row mb-5">
+        <div class="resume-content mr-auto">
+          <h3 class="mb-0">Programmer/IT Technical Support Specialist</h3>
+          <div class="subheading mb-3">Jal International Co. Ltd. (deployed to Saudi Aramco, Dhahran KSA)</div>
+        </div>
+        <div class="resume-date text-md-right">
+          <span class="text-primary">May 2012 - August 2017</span>
+        </div>
+      </div>
+
+      <div class="resume-item d-flex flex-column flex-md-row mb-5">
+          <div class="resume-content mr-auto">
+            <h3 class="mb-0">Freelance Web Developer</h3>
+            <div class="subheading mb-3">Sandigan ng OFW Multipurpose Cooperative</div>
+          </div>
+          <div class="resume-date text-md-right">
+            <span class="text-primary">Jun 2014 - August 2016</span>
+          </div>
+        </div>
+  
+      <div class="resume-item d-flex flex-column flex-md-row mb-5">
+        <div class="resume-content mr-auto">
+          <h3 class="mb-0">Programmer/IT Technical Support Specialist</h3>
+          <div class="subheading mb-3">Dar Aluminum &amp; Steel Factory</div>
+        </div>
+        <div class="resume-date text-md-right">
+          <span class="text-primary">January 2009 - May 2011</span>
+        </div>
+      </div>
+  
+      <div class="resume-item d-flex flex-column flex-md-row mb-5">
+        <div class="resume-content mr-auto">
+          <h3 class="mb-0">Full-time Computer Instructor</h3>
+          <div class="subheading mb-3">University of Pangasinan</div>
+        </div>
+        <div class="resume-date text-md-right">
+          <span class="text-primary">June 1997 - December 2007</span>
+        </div>
+      </div>
+    </div>
+  
+  </section>
+  
+  <section class="resume-section p-3 p-lg-5 d-flex flex-column" id="education">
+    <div class="my-auto">
+      <h2 class="mb-5">Education</h2>
+  
+      <div class="resume-item d-flex flex-column flex-md-row mb-5">
+        <div class="resume-content mr-auto">
+          <h3 class="mb-0">University of Pangasinan</h3>
+          <div class="subheading mb-3">Bachelor of Science in Information Technology</div>
+        </div>
+        <div class="resume-date text-md-right">
+          <span class="text-primary">May 1997</span>
+        </div>
+      </div>
+  
+      <div class="resume-item d-flex flex-column flex-md-row">
+        <div class="resume-content mr-auto">
+          <h3 class="mb-0">University of Pangasinan</h3>
+          <div class="subheading mb-3">Master in Business Administration</div>
+        </div>
+        <div class="resume-date text-md-right">
+          <span class="text-primary">May 2004</span>
+        </div>
+      </div>
+  
+    </div>
+  </section>
+  
+  <section class="resume-section p-3 p-lg-5 d-flex flex-column" id="skills">
+    <div class="my-auto">
+      <h2 class="mb-5">Skills</h2>
+      <div class="subheading mb-3">Programming Languages, Frameworks &amp; Tools</div>
+      <ul class="list-inline list-icons">
+        <li class="list-inline-item">
+          <i class="devicons devicons-dotnet"></i>
+        </li>
+        <li class="list-inline-item">
+          <i class="devicons devicons-html5"></i>
+        </li>
+        <li class="list-inline-item">
+          <i class="devicons devicons-css3"></i>
+        </li>
+        <li class="list-inline-item">
+            <i class="devicons devicons-angular"></i>
+        </li>
+        <li class="list-inline-item">
+          <i class="devicons devicons-less"></i>
+        </li>
+        <li class="list-inline-item">
+          <i class="devicons devicons-javascript"></i>
+        </li>
+        <li class="list-inline-item">
+          <i class="devicons devicons-jquery"></i>
+        </li>
+        <li class="list-inline-item">
+          <i class="devicons devicons-bootstrap"></i>
+        </li>
+        <li class="list-inline-item">
+            <i class="devicons devicons-npm"></i>
+        </li>
+        <li class="list-inline-item">
+          <i class="devicons devicons-visualstudio"></i>
+        </li>
+        <li class="list-inline-item">
+            <i class="devicons devicons-msql_server"></i>
+        </li>
+        <li class="list-inline-item">
+          <i class="devicons devicons-sqllite"></i>
+        </li>
+      </ul>
+      <div class="subheading mb-3">Workflow</div>
+      <ul class="fa-ul mb-0">
+        <li>
+          <i class="fa-li fa fa-check"></i>
+          IT Technical Support 
+        </li>
+        <li>
+          <i class="fa-li fa fa-check"></i>
+          Responsive &amp; Cross-platform web/mobile development</li>
+        <li>
+          <i class="fa-li fa fa-check"></i>
+          Classic windows desktop development using Access-VBA, WinForms</li>
+      </ul>
+    </div>
+  </section>
+  
+  <!-- 
+  <section class="resume-section p-3 p-lg-5 d-flex flex-column" id="portfolio">
+    <div class="my-auto">
+      <h2 class="mb-5">Portfolio</h2>
+      
+      <app-portfolio></app-portfolio>
+
+    </div>
+  </section>
+  -->
+
+  
+  <section class="resume-section p-3 p-lg-5 d-flex flex-column" id="awards">
+    <div class="my-auto">
+      <h2 class="mb-5">Awards &amp; Certifications</h2>
+      <ul class="fa-ul mb-0">
+        <li>
+          <i class="fa-li fa fa-trophy text-warning"></i>
+          Google Analytics Certified Developer</li>
+        <li>
+          <i class="fa-li fa fa-trophy text-warning"></i>
+          Mobile Web Specialist - Google Certification</li>
+        <li>
+          <i class="fa-li fa fa-trophy text-warning"></i>
+          1<sup>st</sup>
+          Place - University of Colorado Boulder - Emerging Tech Competition 2009</li>
+        <li>
+          <i class="fa-li fa fa-trophy text-warning"></i>
+          1<sup>st</sup>
+          Place - University of Colorado Boulder - Adobe Creative Jam 2008 (UI Design Category)</li>
+        <li>
+          <i class="fa-li fa fa-trophy text-warning"></i>
+          2<sup>nd</sup>
+          Place - University of Colorado Boulder - Emerging Tech Competition 2008</li>
+        <li>
+        <li>
+          <i class="fa-li fa fa-trophy text-warning"></i>
+          1<sup>st</sup>
+          Place - James Buchanan High School - Hackathon 2006</li>
+        <li>
+          <i class="fa-li fa fa-trophy text-warning"></i>
+          3<sup>rd</sup>
+          Place - James Buchanan High School - Hackathon 2005</li>
+      </ul>
+    </div>
+  </section>
+</div>>

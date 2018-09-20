@@ -1,0 +1,29 @@
+[
+    {
+      "Project" : "Portfolio Website",
+      "From" : "Dec 2017",
+      "To" : "Jan 2018",
+      "Company" : "FAB",
+      "Location" : "Philippines",
+      "Url" : "",
+      "PortfolioFiles" : [ {
+        "FileName" : "file1.png",
+        "OrderId" : 1,
+        "Description" : "Portfolio SPA Website developed using ASP.Net Core 2.1, Angular 6, Bootstrap and MySQL database."
+      } ]
+    },
+    {
+      "Project" : "FMD-MPU Project Management System",
+      "From" : "2014",
+      "To" : "2017",
+      "Company" : "JAL-Saudi Aramco",
+      "Location" : "Dhahram, Saudi Arabia",
+      "Url" : "",
+      "PortfolioFiles" : [ {
+        "FileName" : "file2.png",
+        "OrderId" : 1,
+        "Description" : "Online Project Management and Notification System developed using VBA and Microsoft Access database."
+      } ]
+    }
+  
+]

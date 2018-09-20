@@ -1,0 +1,133 @@
+
+
+
+<div class="row my-3 animated bounceInDown">
+  <div class="col-lg-6 offset-lg-3 col-sm-6 offset-sm-3 col-12">
+      <div class="card  border-secondary">
+        <div class="card-header">
+            <h3 *ngIf="idToEdit > 0" class="mb-0 my-2">Edit Portfolio</h3>
+            <h3 *ngIf="idToEdit == 0" class="mb-0 my-2">New Portfolio</h3>
+        </div>
+        <div class="card-body">
+            <nav>
+                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                  <a class="nav-item nav-link" [ngClass]="{'active': !submitted}"  id="nav-folioDetails-tab" data-toggle="tab" href="#nav-folioDetails" role="tab" aria-controls="nav-folioDetails" aria-selected="true">
+                    <h5>1. Details</h5>
+                  </a>
+                  <a class="nav-item nav-link" [ngClass]="{'active': submitted}" id="nav-folioImages-tab" data-toggle="tab" href="#nav-folioImages" role="tab" aria-controls="nav-folioImages" aria-selected="false">
+                    <h5>2. Screenshots</h5>
+                  </a>
+                </div>
+            </nav>
+            <div class="tab-content" id="nav-tabContent">
+              <div class="tab-pane fade " [ngClass]="{'show active': !submitted}" id="nav-folioDetails" role="tabpanel" aria-labelledby="nav-folioDetails-tab">
+
+                    <fieldset [disabled]="submitted" class="my-2">
+
+                    <form  [formGroup]="folioForm" (ngSubmit)="submitPortfolioEntries()" >
+                      <div class="form-group">
+                          <label for="project" class="text-dark font-weight-normal" [ngClass]="{'text-primary font-weight-bold': f.project.touched && f.project.errors}">Project</label> 
+                          <input formControlName="project" 
+                                [ngClass]="{'is-invalid': f.project.touched && f.project.errors}" 
+                                placeholder="Portfolio Name" class="form-control form-control-sm" type="text"> 
+                          <div *ngIf="f.project.touched && f.project.errors" class="invalid-feedback">
+                              <div *ngIf="f.project.errors.required">Portfolio name is required!</div>
+                          </div>
+                      </div>    
+                
+                      <div class="form-group">
+                        <label for="description" class="text-dark font-weight-normal" [ngClass]="{'text-primary font-weight-bold': f.description.touched && f.description.errors}">Description</label> 
+                        <textarea formControlName="description" [ngClass]="{'is-invalid': f.description.touched && f.description.errors}" 
+                          class="form-control form-control-sm" rows="4" placeholder="Enter portfolio description" ></textarea>
+                        <div *ngIf="f.description.touched && f.description.errors" class="invalid-feedback">
+                            <div *ngIf="f.description.errors.required">Portfolio description is required!</div>
+                        </div>
+                      </div>
+        
+                      <div class="form-group">
+                        <label for="durationFrom" class="text-dark font-weight-normal" [ngClass]="{'text-primary font-weight-bold': f.durationFrom.touched && f.durationFrom.errors || f.durationTo.touched && f.durationTo.errors}">Work Duration</label> 
+                        <div class="input-group">
+                            <input formControlName="durationFrom" [ngClass]="{'is-invalid': f.durationFrom.touched && f.durationFrom.errors}" 
+                              placeholder="From" class="form-control form-control-sm" type="text">
+                            <input formControlName="durationTo" [ngClass]="{'is-invalid': f.durationTo.touched && f.durationTo.errors}"  
+                              placeholder="To" class="form-control form-control-sm" type="text">
+                        </div>
+                        <div *ngIf="f.durationFrom.touched && f.durationFrom.errors" class="text-danger">
+                            <small *ngIf="f.durationFrom.errors.required">Duration from is required!</small>
+                        </div>
+                        <div *ngIf="f.durationTo.touched && f.durationTo.errors" class="text-danger">
+                            <small *ngIf="f.durationTo.errors.required">Duration to is required!</small>
+                        </div>
+                      </div>
+  
+                      <div class="form-group">
+                        <label for="company" class="text-dark font-weight-normal" [ngClass]="{'text-primary font-weight-bold': f.company.touched && f.company.errors}">Company</label> 
+                        <input formControlName="company" [ngClass]="{'is-invalid': f.company.touched && f.company.errors}" 
+                          placeholder="Name of company" class="form-control form-control-sm" type="text">
+                        <div *ngIf="f.company.touched && f.company.errors" class="invalid-feedback">
+                            <div *ngIf="f.company.errors.required">Company name is required!</div>
+                        </div>
+                      </div>
+        
+                      <div class="form-group">
+                        <label for="location" class="text-dark font-weight-normal" [ngClass]="{'text-primary font-weight-bold': f.location.touched && f.location.errors}">Address</label> 
+                        <input formControlName="location" [ngClass]="{'is-invalid': f.location.touched && f.location.errors}" 
+                          placeholder="Address of company" class="form-control form-control-sm" type="text">
+                        <div *ngIf="f.location.touched && f.location.errors" class="invalid-feedback">
+                            <div *ngIf="f.location.errors.required">Company address is required!</div>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <button  type="submit" [disabled]="folioForm.invalid || loading || submitted"
+                          class="btn btn-sm btn-outline-secondary pull-right">
+                          <span *ngIf="idToEdit > 0">Update Portfolio</span>
+                          <span *ngIf="idToEdit == 0">Create Portfolio</span>
+                          <i *ngIf="loading" class="fa fa-spinner fa-spin" style="font-size:20px"></i> 
+                        </button>
+                      </div>
+                    </form>
+                  </fieldset>
+              </div>
+              <div class="tab-pane fade" [ngClass]="{'show active': submitted}" id="nav-folioImages" role="tabpanel" 
+                   aria-labelledby="nav-folioImages-tab">
+                  <div class="form-group"  >
+                      <label for="uploadPhoto">Upload</label><br/>
+                      <label class="btn btn-sm btn-outline-dark p-2" aria-disabled="true" >
+                          <input formControlName="uploadPhoto" 
+                             type="file" (change)="selectFile($event)" 
+                             (drop)="onDropFile($event)" (dragover)="onDragOverFile($event)"
+                             placeholder="Upload file" accept=".png, .jpg, .gif">
+                             <i class="fa fa-cloud-upload"></i> 
+                             Drag and drop or select photos here
+                     </label>
+                  </div>
+                  
+                  <div class="card-columns">
+                      <div *ngFor="let folioPic of folioPicsToList.portfolioPictures" class="card text-center">
+                          <img class="img-fluid " src="{{ folioPicUrl + '/' +  folioPic.pictureFileName}}">
+                          <div class="card-body">
+                            <div class="btn-group mb-1">
+                                <button class="btn btn-sm btn-outline-danger" (click)="deletePortfolioPicture(folioPic.id)">
+                                    <i class="fa fa-trash"></i>
+                                </button>
+                                <button class="btn btn-sm btn-outline-dark">
+                                    <i class="fa fa-heart"></i>
+                                </button>
+                            </div>
+                      </div>
+                    </div>
+                  </div>
+
+              </div> 
+            </div>
+        </div><!-- card body -->
+      </div> <!-- card -->
+
+      <!-- 
+        {{ folioForm.status | json }}
+        {{ folioForm.value | json }}
+      -->  
+  </div>
+</div>
+

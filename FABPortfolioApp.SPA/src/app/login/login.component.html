@@ -1,0 +1,45 @@
+
+<section class="resume-section p-3 p-lg-5 d-column animated fadeInDown" id="login">
+  <div class="row my-auto">
+    <div class="col-lg-4 offset-lg-4 col-sm-4 offset-sm-4 col-12 text-center">
+      <div class="card bg-light" style="width: 18rem;">
+        <div class="card-body">
+          <h4 class="card-title">Sign-in</h4>
+          <h6 class="card-subtitle mb-2 text-muted">Please enter your registered email and password</h6>
+          <form  [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+
+            <div class="form-group">
+              <input type="text" formControlName="username" [ngClass]="{'is-invalid': f.username.touched && f.username.errors}" class="form-control mb-1" placeholder="User Name" required autofocus>
+                <div *ngIf="f.username.touched && f.username.errors" class="invalid-feedback">
+                  <div class="text-left" *ngIf="f.username.errors.required">Username is required</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+              <input type="password" formControlName="password" [ngClass]="{ 'is-invalid': f.password.touched && f.password.errors }" class="form-control mb-1" placeholder="Password" required>
+              <div *ngIf="f.password.touched && f.password.errors" class="invalid-feedback">
+                <div  class="text-left" *ngIf="f.password.errors.required">Password is required</div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <button  
+                type="submit"
+                [disabled]="loginForm.invalid || loading"
+                class="btn btn-outline-dark btn-block" >
+                 Login <i *ngIf="loading" class="fa fa-spinner fa-spin" style="font-size:20px"></i> 
+              </button>
+            </div>
+          </form>
+          <!--  
+            {{ loginForm.status | json}}
+            {{ loginForm.value | json}}
+          -->
+        </div>
+      </div>
+       
+    </div>
+  
+  </div> <!-- row -->
+</section>
+

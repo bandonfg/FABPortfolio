@@ -1,0 +1,98 @@
+
+<div class="row  mt-5 p-3 animated fadeInDown" >
+    <div class="col-md-4 mx-auto">
+        <div class="card border-secondary">
+            <div class="card-header">
+                <h3 class="mb-0 my-2">Sign Up</h3>
+            </div>
+            <div class="card-body">
+                <form [formGroup]="regForm" (ngSubmit)="onSubmit()">
+                    <div class="form-group">
+                        <label for="firstName">First Name</label>
+                        <input type="text"
+                            formControlName="firstName"
+                            [ngClass]="{ 'is-invalid': regForm.get('firstName').touched  && regForm.get('firstName').errors }"
+                            class="form-control"
+                            placeholder="Enter your first name">
+
+                            <div *ngIf="regForm.get('firstName').touched && regForm.get('firstName').errors" class="invalid-feedback">
+                                <div *ngIf="regForm.get('firstName').hasError('required')">
+                                    Your first name is required!</div>
+                                <div *ngIf="regForm.get('firstName').hasError('minlength') || regForm.get('firstName').hasError('maxlength')">
+                                    First Name must be min of 2 and max of 20 characters</div>
+                            </div>
+                    </div>
+
+                    <div class="form-group">
+                            <label for="lastName">Last Name</label>
+                            <input type="text" 
+                                formControlName="lastName"
+                                [ngClass]="{ 'is-invalid':  f.lastName.touched && f.lastName.errors }"
+                                class="form-control"
+                                placeholder="Enter your last name">
+
+                        <div *ngIf="f.lastName.touched && f.lastName.errors" class="invalid-feedback">
+                            <div *ngIf="f.lastName.errors.required">Your last name is required!</div>
+                            <div *ngIf="f.lastName.errors.minlength || f.lastName.errors.maxlength">Last Name must be min of 2 and max of 20 characters</div>
+                        </div>
+                    </div>
+                        
+
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" [ngClass]="{ 'is-invalid': regForm.get('email').touched && f.email.errors }" formControlName="email" class="form-control" placeholder="email@gmail.com">
+
+                        <div *ngIf="regForm.get('email').touched && f.email.errors" class="invalid-feedback">
+                                <div *ngIf="f.email.errors.email">Please enter a valid email address</div>
+                                <div *ngIf="f.email.errors.required">Your email is required!</div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" 
+                            formControlName="password"
+                            [ngClass]="{ 'is-invalid': f.password.touched && f.password.errors }" 
+                            placeholder="enter password" 
+                            class="form-control mb-1">
+
+                        <div *ngIf="f.password.touched && f.password.errors" class="invalid-feedback">
+                                <div *ngIf="f.password.errors.minlength || f.password.errors.maxlength">Password must be min of 6 and max of 20 characters</div>
+                                <div *ngIf="f.password.errors.required">Password is required!</div>
+                        </div>
+
+                        <input type="password" 
+                            formControlName="confirmPassword"
+                            [ngClass]="{ 'is-invalid':  regForm.get('confirmPassword').errors && regForm.get('confirmPassword').touched || regForm.get('confirmPassword').touched &&  regForm.hasError('mismatch') }" 
+                            placeholder="verify password" 
+                            class="form-control">
+
+                        <div *ngIf=" regForm.get('confirmPassword').touched && regForm.get('confirmPassword').errors" class="invalid-feedback">
+                            <div *ngIf="regForm.get('confirmPassword').hasError('required')">Confirm password is required!</div>
+                        </div>
+
+                        <div class="invalid-feedback" 
+                            *ngIf="regForm.hasError('mismatch') && regForm.get('confirmPassword').touched">Password must match</div>
+
+                    </div>
+
+                    <div class="form-group">
+                        <button type="submit" 
+                            [disabled]="regForm.invalid || loading"
+                            class="btn btn-outline-dark float-right">
+                            Register  <i *ngIf="loading" class="fa fa-spinner fa-spin" style="font-size:20px"></i> 
+                        </button>
+                    </div>
+                    
+                    <div *ngIf="error" class="alert alert-danger">{{error}}</div>
+                    
+                </form>
+
+                {{  regForm.value | json }}
+                {{  regForm.status | json }}
+
+            </div>
+        </div>
+    </div>
+</div>
+<!--/row-->
