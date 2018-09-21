@@ -16,8 +16,8 @@
     <div class="card-deck animated bounceInDown">
         <div *ngFor="let portfolio of portfolios" class="card mb-4" style="min-width: 22rem; max-width: 22rem; ">
 
-            <a [routerLink]="['/portfolio/detail/']" [queryParams]="{ id: portfolio.id}">
-               <img class="card-img-top" style="height: 15rem;" src="{{ folioPicUrl + '/' +  portfolio.portfolioFiles[0].fileName}}" alt="Portfolio image">
+            <a [routerLink]="['/portfolio/detail/']" [queryParams]="{ id: portfolio.id}" >
+               <img  class="card-img-top" style="height: 15rem;" src="{{ folioPicUrl + '/' +  portfolio.portfolioFiles[0].fileName}}" alt="Portfolio image">
             </a>
           
             <div class="card-body">
@@ -26,23 +26,23 @@
                   {{portfolio.company}} - {{portfolio.location}}
                 </h6>
             </div><!-- /# <div class='card-body'>  --> 
+
+            <!-- *ngIf="loggedIn()" -->
             <div class="card-footer">
-              <!-- *ngIf="loggedIn()" -->
               <div  class="btn-group pull-right">
                 <!-- 
                   Comment block here:  Passing Route Parameters in Angular Component
                   Comment block here:  https://angular-2-training-book.rangle.io/handout/routing/query_params.html  
                 -->    
-                <a class="btn btn-outline-secondary" [routerLink]="['/portfolio']" 
+                <a class="btn btn-outline-secondary" [routerLink]="['/portfolio/edit']" 
                   [queryParams]="{ idToEdit: portfolio.id, 
-                                    project: portfolio.project,   
-                                    description: portfolio.portfolioFiles[0].description,   
-                                    from: portfolio.from,
-                                    to: portfolio.to,
-                                    company: portfolio.company,
-                                    location: portfolio.location,
-                                    url: portfolio.url,
-                                    portfolioFiles: portfolio.portfolioFiles }">
+                                   project: portfolio.project,   
+                                   description: portfolio.description,   
+                                   from: portfolio.from,
+                                   to: portfolio.to,
+                                   company: portfolio.company,
+                                   location: portfolio.location,
+                                   url: portfolio.url }">
                       Edit    
                 </a>
                   <button class="btn btn-outline-danger" (click)="deletePortfolio(portfolio.id)">Delete</button>

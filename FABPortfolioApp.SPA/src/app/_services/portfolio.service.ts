@@ -56,7 +56,8 @@ export class PortfolioService {
     return this.http.get<Portfolio[]>(this.baseUrl + '/' + id);
   }
 
-  // DELETE   api/portfolio/srcTable/id
+  // DELETE   api/portfolio
+  // deletePortfolio(srcTable: number, id: number)
   // Params   srcTable can be Portfolio(1) or PortfolioPicture (2)
   //          id can be Portfolio.Id or PortfolioPicture.Id
   deletePortfolio(srcTable: number, id: number) {
@@ -69,7 +70,7 @@ export class PortfolioService {
   }
 
   // PUT api/portfolio
-  updatePortfolio(folio: Portfolio, id: number) {
+  updatePortfolio(id: number, folio: Portfolio) {
     return this.http.put(this.baseUrl + '/edit/' + id, folio);
   }
 

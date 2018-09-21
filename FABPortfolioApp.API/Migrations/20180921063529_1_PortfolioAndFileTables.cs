@@ -13,6 +13,7 @@ namespace FABPortfolioApp.API.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Project = table.Column<string>(nullable: true),
+                    Description = table.Column<string>(nullable: true),
                     Company = table.Column<string>(nullable: true),
                     Location = table.Column<string>(nullable: true),
                     From = table.Column<string>(nullable: true),
@@ -32,8 +33,7 @@ namespace FABPortfolioApp.API.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     PortfolioId = table.Column<int>(nullable: false),
                     FileName = table.Column<string>(nullable: true),
-                    OrderId = table.Column<int>(nullable: false),
-                    Description = table.Column<string>(nullable: true)
+                    OrderId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {

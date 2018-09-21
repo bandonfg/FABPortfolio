@@ -1,9 +1,8 @@
 using System;
-using System.Collections.Generic;
 
-namespace FABPortfolioApp.API.Models
+namespace FABPortfolioApp.API.Dtos
 {
-    public class Portfolio
+    public class PortfolioForUpdateDto
     {
         public int Id { get; set; }
         public string Project { get; set; }
@@ -13,7 +12,5 @@ namespace FABPortfolioApp.API.Models
         public string From { get; set; }
         public string To { get; set; }
         public string Url { get; set; }
-        public ICollection<PortfolioFile> PortfolioFiles { get; set; }
     }
 }
-

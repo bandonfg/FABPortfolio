@@ -82,7 +82,7 @@ export class PortfolioListComponent implements OnInit {
   }
 
   // DELETE api/portfolio/{srcTable}/{id}
-  // Params {srcTable} refer to 1 = Portfolio, 2 = PortfolioTable
+  // Params {srcTable} refer to 1 = Portfolio, 2 = PortfolioFile table
   //        {id} can refer to Portfolio.Id or PortfolioPicture.Id
   deletePortfolio(id: number) {
     this.alertify.confirm( 'Are you sure you want to delete this portfolio?', () => {

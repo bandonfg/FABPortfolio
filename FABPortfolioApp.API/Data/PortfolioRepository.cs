@@ -13,6 +13,7 @@ namespace FABPortfolioApp.API.Data
     {
         Task<IEnumerable<Portfolio>> GetPortfolios();
         Task<Portfolio> GetPortfolioById(int id);
+        Task<PortfolioFile> GetPortfolioFileById(int id);
         void Add<T>(T entity) where T : class;
         void Update<T>(T entity) where T : class;
         Task<bool> SaveAll();
@@ -40,6 +41,13 @@ namespace FABPortfolioApp.API.Data
                                           .Include(pf => pf.PortfolioFiles )
                                           .FirstOrDefaultAsync( p => p.Id == id );
             return portfolio; 
+        }
+
+        public async Task<PortfolioFile> GetPortfolioFileById(int id)
+        {
+            var portfolioFile = await _context.PortfolioFiles
+                                        .FirstOrDefaultAsync( p => p.Id == id );
+            return portfolioFile; 
         }
 
         public void Add<T>(T entity) where T : class

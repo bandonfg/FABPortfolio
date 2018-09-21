@@ -1,6 +1,7 @@
 [
     {
       "Project" : "Portfolio Website",
+      "Description" : "Portfolio SPA Website developed using ASP.Net Core 2.1, Angular 6, Bootstrap and SQLite to MySQL database.",
       "From" : "Dec 2017",
       "To" : "Jan 2018",
       "Company" : "FAB",
@@ -8,12 +9,12 @@
       "Url" : "",
       "PortfolioFiles" : [ {
         "FileName" : "fabsite.png",
-        "OrderId" : 1,
-        "Description" : "Portfolio SPA Website developed using ASP.Net Core 2.1, Angular 6, Bootstrap and SQLite to MySQL database."
+        "OrderId" : 1
       } ]
     },
     {
       "Project" : "FMD-MPU Project Management System",
+      "Description" : "FMD Online Project Management and Notification System developed using VBA and Microsoft Access database.",
       "From" : "2014",
       "To" : "2017",
       "Company" : "JAL-Saudi Aramco",
@@ -22,15 +23,24 @@
       "PortfolioFiles" : [ 
         {
         "FileName" : "fmd-pms.jpg",
-        "OrderId" : 1,
-        "Description" : "FMD Online Project Management and Notification System developed using VBA and Microsoft Access database."
-        },
+        "OrderId" : 1
+        }
+      ]
+    },
+    {
+      "Project" : "TSD Project Management System",
+      "Description" : "TSD Online Project Management and Notification System developed using VBA and Microsoft Access database.",
+      "From" : "2016",
+      "To" : "2017",
+      "Company" : "JAL-Saudi Aramco",
+      "Location" : "Dhahram, Saudi Arabia",
+      "Url" : "",
+      "PortfolioFiles" : [ 
         {
           "FileName" : "tsd-pms.jpg",
-          "OrderId" : 2,
+          "OrderId" : 1,
           "Description" : "TSD Online Project Management and Notification System developed using VBA and Microsoft Access database."
-          }
-  
+        }
       ]
     }
   

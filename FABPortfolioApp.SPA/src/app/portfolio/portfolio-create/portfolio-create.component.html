@@ -41,38 +41,44 @@
                             <div *ngIf="folioForm.get('description').hasError('required')">Portfolio description is required!</div>
                         </div>
                       </div>
+
+                      <div class="form-group">
+                        <label for="url" class="text-dark font-weight-normal" >Url (optional)</label> 
+                        <input type="text" formControlName="url" class="form-control form-control-sm"  placeholder="https://" aria-describedby="inputGroupPrepend" required>
+                      </div>
+
         
                       <div class="form-group">
-                        <label for="from" class="text-dark font-weight-normal" [ngClass]="{'text-primary font-weight-bold': f.from.touched && f.from.errors || f.to.touched && f.to.errors}">Work Duration</label> 
+                        <label for="from" class="text-dark font-weight-normal" [ngClass]="{'text-primary font-weight-bold': folioForm.get('from').touched && folioForm.get('from').errors || folioForm.get('to').touched && folioForm.get('to').errors}">Work Duration</label> 
                         <div class="input-group">
                             <input formControlName="from" [ngClass]="{'is-invalid': f.from.touched && f.from.errors}" 
                               placeholder="From" class="form-control form-control-sm" type="text">
                             <input formControlName="to" [ngClass]="{'is-invalid': f.to.touched && f.to.errors}"  
                               placeholder="To" class="form-control form-control-sm" type="text">
                         </div>
-                        <div *ngIf="f.from.touched && f.from.errors" class="text-danger">
-                            <small *ngIf="f.from.errors.required">Duration from is required!</small>
+                        <div *ngIf="folioForm.get('from').touched && folioForm.get('from').errors" class="text-danger">
+                            <small *ngIf="folioForm.get('from').hasError('required')">Duration from is required!</small>
                         </div>
-                        <div *ngIf="f.to.touched && f.to.errors" class="text-danger">
-                            <small *ngIf="f.to.errors.required">Duration to is required!</small>
+                        <div *ngIf="folioForm.get('to').touched && folioForm.get('to').errors" class="text-danger">
+                            <small *ngIf="folioForm.get('to').hasError('required')">Duration to is required!</small>
                         </div>
                       </div>
   
                       <div class="form-group">
-                        <label for="company" class="text-dark font-weight-normal" [ngClass]="{'text-primary font-weight-bold': f.company.touched && f.company.errors}">Company</label> 
+                        <label for="company" class="text-dark font-weight-normal" [ngClass]="{'text-primary font-weight-bold': folioForm.get('company').touched && folioForm.get('company').errors}">Company</label> 
                         <input formControlName="company" [ngClass]="{'is-invalid': f.company.touched && f.company.errors}" 
                           placeholder="Name of company" class="form-control form-control-sm" type="text">
-                        <div *ngIf="f.company.touched && f.company.errors" class="invalid-feedback">
-                            <div *ngIf="f.company.errors.required">Company name is required!</div>
+                        <div *ngIf="folioForm.get('touched') && folioForm.get('company').errors" class="invalid-feedback">
+                            <div *ngIf="folioForm.get('company').hasError('required')">Company name is required!</div>
                         </div>
                       </div>
         
                       <div class="form-group">
-                        <label for="location" class="text-dark font-weight-normal" [ngClass]="{'text-primary font-weight-bold': f.location.touched && f.location.errors}">Address</label> 
+                        <label for="location" class="text-dark font-weight-normal" [ngClass]="{'text-primary font-weight-bold': folioForm.get('location').touched && folioForm.get('location').errors}">Address</label> 
                         <input formControlName="location" [ngClass]="{'is-invalid': f.location.touched && f.location.errors}" 
                           placeholder="Address of company" class="form-control form-control-sm" type="text">
-                        <div *ngIf="f.location.touched && f.location.errors" class="invalid-feedback">
-                            <div *ngIf="f.location.errors.required">Company address is required!</div>
+                        <div *ngIf="folioForm.get('location').touched && folioForm.get('location').errors" class="invalid-feedback">
+                            <div *ngIf="folioForm.get('location').hasError('required')">Company address is required!</div>
                         </div>
                       </div>
 

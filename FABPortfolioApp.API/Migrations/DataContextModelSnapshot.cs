@@ -22,6 +22,8 @@ namespace FABPortfolioApp.API.Migrations
 
                     b.Property<string>("Company");
 
+                    b.Property<string>("Description");
+
                     b.Property<string>("From");
 
                     b.Property<string>("Location");
@@ -41,8 +43,6 @@ namespace FABPortfolioApp.API.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Description");
 
                     b.Property<string>("FileName");
 

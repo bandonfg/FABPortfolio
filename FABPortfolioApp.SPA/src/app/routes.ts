@@ -15,6 +15,7 @@ export const appRoutes: Routes = [
     {path: 'member/login', component: LoginComponent},
     {path: 'member/register', component: MemberRegistrationComponent},
     {path: 'portfolio/create', component: PortfolioCreateComponent},
+    {path: 'portfolio/edit', component: PortfolioCreateComponent},
     {path: 'portfolio', component: PortfolioListComponent,
         resolve: {portfolios: PortfolioListResolver}},
     {path: 'portfolio/detail', component: PortfolioDetailComponent},

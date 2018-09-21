@@ -77,8 +77,6 @@ export class PortfolioCreateComponent implements OnInit {
           this.folioForm.controls['location'].setValue( params['location'] || '' );
           this.folioForm.controls['url'].setValue( params['url'] || '' );
         });
-
-
           /*
           this.workDuration = params['projDuration'] || '';
           this.folioForm.controls['projDuration'].setValue(this.workDuration);
@@ -87,9 +85,6 @@ export class PortfolioCreateComponent implements OnInit {
           this.folioForm.controls['durationTo']
               .setValue( this.workDuration.substring(this.workDuration.indexOf('-') + 1)  || '' );
           */
-
-
-
     if (this.idToEdit > 0) {
       this.getPortfolioPictures(this.idToEdit);
     } // end of if (this.idToEdit > 0)
@@ -105,9 +100,6 @@ export class PortfolioCreateComponent implements OnInit {
 
       this.folio = Object.assign({}, this.folioForm.value);
       // make username same as the registered email address
-
-      // field for removal
-      // this.folio.projDuration = this.folioForm.get('durationFrom').value + ' - '  +  this.folioForm.get('durationTo').value;
 
       // Create new portfolio (this.idToEdit is 0)
       if (this.idToEdit === 0) {
@@ -126,14 +118,12 @@ export class PortfolioCreateComponent implements OnInit {
           this.folio.id = this.idToEdit;
           this.portfolioId = this.idToEdit;
 
-          alert('edit portfolio id: ' + this.idToEdit);
-
-          this.portfolioService.updatePortfolio(this.folio, this.idToEdit).subscribe( (res: Portfolio) => {
+          this.portfolioService.updatePortfolio(this.idToEdit, this.folio).subscribe( (res: Portfolio) => {
               this.submitted = true;  // form is submitted
               this.alertify.success('Portfolio successfully created.');
           }, error => {
               console.log('else if this.idToEdit > 1 block -> error: ' + error);
-              this.alertify.error('Error while creating portfolio: ' + error);
+              this.alertify.error('Error while updating portfolio: ' + error);
               this.loading = false;
           }, () => {
               // once saved, stop showing busy loading animation icon
