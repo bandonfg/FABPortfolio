@@ -3,17 +3,24 @@ using Newtonsoft.Json;
 using System.Linq;
 using FABPortfolioApp.API.Data;
 using FABPortfolioApp.API.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace FABPortfolio.API.Data
 {
     public class Seed
     {
+        private readonly UserManager<User> _userManager;
+        private readonly RoleManager<Role> _roleManager;
         private readonly DataContext _context;
-        public Seed(DataContext context)
+        public Seed(
+            UserManager<User> userManager, 
+            RoleManager<Role> roleManager,
+            DataContext context)
         {
+            _userManager = userManager;
+            _roleManager = roleManager;
             _context = context;
         }
-
 
         public void SeedPortfolios()
         {
@@ -29,6 +36,54 @@ namespace FABPortfolio.API.Data
                 _context.SaveChanges();
             }
         }
+
+
+        public void SeedUsers()
+        {
+            if (!_userManager.Users.Any())
+            {
+                var userData = System.IO.File.ReadAllText("Data/UserSeedData.json");
+                var users = JsonConvert.DeserializeObject<List<User>>(userData);
+                
+                // define user roles
+                var roles = new List<Role>
+                {
+                    new Role{Name = "Member"},
+                    new Role{Name = "Admin"},
+                };
+
+                // create user roles
+                foreach (var role in roles)
+                {
+                    _roleManager.CreateAsync(role).Wait();
+                }
+
+                // create users
+                foreach (var user in users)
+                {
+                    // _context.Users.Add(user);
+                    _userManager.CreateAsync(user, "P@ssw0rd").Wait();
+                    _userManager.AddToRoleAsync(user, "Admin").Wait();
+                }
+
+                // define admin user
+                /* 
+                var adminUser = new User
+                {
+                    UserName = "Admin"
+                };
+
+                IdentityResult result = _userManager.CreateAsync(adminUser, "password").Result;
+
+                if (result.Succeeded)
+                {
+                    var admin = _userManager.FindByNameAsync("Admin").Result;
+                    _userManager.AddToRolesAsync(admin, new[] {"Admin", "Moderator"}).Wait();
+                }
+                */
+            }
+        }
+
 
         /*
         public void SeedPortfolioFiles()

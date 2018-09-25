@@ -8,11 +8,13 @@ using AutoMapper;
 using FABPortfolio.API.Data;
 using FABPortfolioApp.API.Data;
 using FABPortfolioApp.API.Helpers;
+using FABPortfolioApp.API.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 // using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -40,22 +42,64 @@ namespace FABPortfolioApp.API
             // configure DataContext, Database and Connection String
             services.AddDbContext<DataContext> ( x => x.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
             
-            // required but with error
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
-                 .AddJsonOptions(opt => {
-                    opt.SerializerSettings.ReferenceLoopHandling = 
-                         Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+            // for deployment, use MySql db
+            // services.AddDbContext<DataContext>(x => x.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
+
+            // set User password registration requirement 
+            IdentityBuilder builder = services.AddIdentityCore<User>(opt =>
+            {
+                opt.Password.RequireDigit = false;
+                opt.Password.RequiredLength = 4;
+                opt.Password.RequireNonAlphanumeric = false;
+                opt.Password.RequireUppercase = false;
             });
 
-            services.AddMvc();
+            
+            builder = new IdentityBuilder(builder.UserType, typeof(Role), builder.Services);
+            builder.AddEntityFrameworkStores<DataContext>();
+            builder.AddRoleValidator<RoleValidator<Role>>();
+            builder.AddRoleManager<RoleManager<Role>>();
+            builder.AddSignInManager<SignInManager<User>>();
+
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII
+                            .GetBytes(Configuration.GetSection("AppSettings:Token").Value)),
+                        ValidateIssuer = false,
+                        ValidateAudience = false
+                    };
+                });
+
+
+            services.AddMvc()
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
+                .AddJsonOptions(opt => {
+                    opt.SerializerSettings.ReferenceLoopHandling = 
+                         Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+                });
+
             // enable cors service to retrieve api data header from spa project
             services.AddCors();
-
+            Mapper.Reset();
             services.AddAutoMapper();
             services.AddTransient<Seed>();
+            // repo for login, registration, 
+            services.AddScoped<IAuthRepository, AuthRepository>();
+
+            // admin related repo: GetUsers, GetUserById, Roles 
+            // and User Management service
+            //  services.AddScoped<IAdminRepository, AdminRepository>();
+
             services.AddScoped<IPortfolioRepository, PortfolioRepository>();
 
+            // services.AddScoped<LogUserActivity>();
+
             // add jwt token based authentication
+            /* 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options => {
                      options.TokenValidationParameters = new TokenValidationParameters
@@ -67,8 +111,9 @@ namespace FABPortfolioApp.API
                          ValidateAudience = false
                      };
             });
+            */
 
-            // maybe required
+            // required to be added later
             // services.AddScoped<LogUserActivity>();
 
         }
@@ -100,10 +145,9 @@ namespace FABPortfolioApp.API
 
             // seeder.SeedUsers();
             seeder.SeedPortfolios();
-
+            seeder.SeedUsers();
             // allow any cors type request
             app.UseCors(x => x.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
-
             app.UseAuthentication();
             app.UseDefaultFiles();
             app.UseStaticFiles();

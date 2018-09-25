@@ -18,8 +18,9 @@ export class UtilityService {
     console.log('util.service->uploadFile()->' + JSON.stringify(file.name) );
 
     const params = new HttpParams();
-    const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + localStorage.getItem('token'), });
-    const options = { headers: headers, params: params, reportProgress: true, };
+    // const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + localStorage.getItem('token'), });
+    // const options = { headers: headers, params: params, reportProgress: true, };
+    const options = { params: params, reportProgress: true, };
     const req = new HttpRequest('POST', url, formData, options);
     return this.http.request(req);
   }
