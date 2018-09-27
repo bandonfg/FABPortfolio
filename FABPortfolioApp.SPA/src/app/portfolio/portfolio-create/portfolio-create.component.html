@@ -108,7 +108,10 @@
                   </div>
                   
                   <div class="card-columns">
-                      <div *ngFor="let folioPic of folioPicsToList.portfolioFiles" class="card text-center">
+                    <!--    
+                    <div *ngFor="let folioPic of folioPicsToList.portfolioFiles" class="card text-center">
+                    -->
+                    <div *ngFor="let folioPic of folioFiles" class="card text-center">
                           <img class="img-fluid " src="{{ folioPicUrl + '/' +  folioPic.fileName}}">
                           <div class="card-body">
                             <div class="btn-group mb-1">
@@ -127,7 +130,6 @@
             </div>
         </div><!-- card body -->
       </div> <!-- card -->
-
       <!-- 
         {{ folioForm.status | json }}
         {{ folioForm.value | json }}

@@ -19,7 +19,7 @@ import { Portfolios } from '../../_models/portfolios';
 export class PortfolioCreateComponent implements OnInit {
 
   folioPicUrl = environment.rootUrl + '/images';
-  uploadUrl = environment.apiUrl + '/portfolio/upload';
+  uploadUrl = environment.apiUrl + '/portfolio/file';
 
   folioForm: FormGroup;
   loading = false;
@@ -28,6 +28,11 @@ export class PortfolioCreateComponent implements OnInit {
 
   folio: Portfolio;
   folioPicsToList: Portfolio[] = [];
+  
+  // test new
+  folioFiles: PortfolioFile[] = [];
+
+
   folioPicToAdd: any = {};
   portfolioId: number;
 
@@ -63,12 +68,12 @@ export class PortfolioCreateComponent implements OnInit {
 
       // set form values when in edit more (idToEdit > 0)
       // idToEdit refer to Portfolio.Id
-
-      this.route
-          .queryParams
+      this.route.queryParams
           .subscribe(params => {
-          // Defaults to 0 if no query param provided.
+            // Defaults to 0 (Create or New Mode) if no query param provided.
           this.idToEdit = params['idToEdit'] || 0;
+          console.log('portfolio-create->idToEdit->' + this.idToEdit);
+
           this.folioForm.controls['project'].setValue( params['project'] || '' );
           this.folioForm.controls['description'].setValue( params['description'] || '' );
           this.folioForm.controls['from'].setValue( params['from'] || '' );
@@ -77,30 +82,27 @@ export class PortfolioCreateComponent implements OnInit {
           this.folioForm.controls['location'].setValue( params['location'] || '' );
           this.folioForm.controls['url'].setValue( params['url'] || '' );
         });
-          /*
-          this.workDuration = params['projDuration'] || '';
-          this.folioForm.controls['projDuration'].setValue(this.workDuration);
-          this.folioForm.controls['durationFrom']
-              .setValue( this.workDuration.substr(0, this.workDuration.indexOf('-') )  || '' );
-          this.folioForm.controls['durationTo']
-              .setValue( this.workDuration.substring(this.workDuration.indexOf('-') + 1)  || '' );
-          */
+
+    // get list of portfolio pictures when in edit mode (idToEdit > 0)
     if (this.idToEdit > 0) {
       this.getPortfolioPictures(this.idToEdit);
-    } // end of if (this.idToEdit > 0)
+    }
+
   } // end of ngOnInit()
 
   get f() { return this.folioForm.controls; }
 
-  // routine to add or edit portfolio entries
+  //////////////////////////////////////////////
+  // routine to add or edit portfolio entries //
+  //////////////////////////////////////////////
   submitPortfolioEntries() {
     // submit entries when form is valid
     if (this.folioForm.valid) {
-      this.loading = true;    // show the loading icon
-
+      // show the loading icon
+      this.loading = true;
+      // assign form field values to this.folio
       this.folio = Object.assign({}, this.folioForm.value);
-      // make username same as the registered email address
-
+      
       // Create new portfolio (this.idToEdit is 0)
       if (this.idToEdit === 0) {
           this.portfolioService.createPortfolio(this.folio).subscribe( (res: Portfolio) => {
@@ -131,20 +133,31 @@ export class PortfolioCreateComponent implements OnInit {
           });
       }
     }
-  } // end of submitPortfolioEntries()
+  }
+  /////////////////////////////////////////////////////
+  // end of routine to add or edit portfolio entries //
+  /////////////////////////////////////////////////////
+
 
   // portfolio photo upload routines
   uploadPhoto(files: FileList) {
+    // determine if there is file selected for upload
     if (files.length === 0) {
       console.log('No file selected!');
       return;
     }
+    // get file info
     const file: File = files[0];
 
-    console.log('uploadPhoto(files)->' + JSON.stringify(files.length));
+    /* retained here for debugging only
+    console.log('uploadPhoto(files)->Length of array ->' + JSON.stringify(files.length));
     console.log('uploadPhoto(files)->' + file.name);
+    console.log('this.portfolioId -> (new) ' + this.portfolioId);
+    console.log('this.idToEdit -> (edit) ' + this.idToEdit);
+    */
 
-    this.utilService.uploadFile(this.uploadUrl, file)
+    // file upload service
+    this.utilService.uploadFile(this.uploadUrl + '/' + ( this.portfolioId || this.idToEdit ) , file)
       .subscribe(
         event => {
           if (event.type === HttpEventType.UploadProgress) {
@@ -161,12 +174,7 @@ export class PortfolioCreateComponent implements OnInit {
           console.log('Upload done');
           this.alertify.success('File successfully uploaded.');
 
-          this.folioPicToAdd.pictureFileName = file.name;
-          this.folioPicToAdd.isMain = false;
-          this.folioPicToAdd.portfolioId = (this.portfolioId || this.idToEdit);
-
-          // call addPortfolioPicture service to add info to db
-          this.addPortfolioPicture();
+         this.getPortfolioPictures( ( this.portfolioId || this.idToEdit ) );
         }
       );
 
@@ -175,25 +183,18 @@ export class PortfolioCreateComponent implements OnInit {
   // GET api/portfolio/{id} - Get list of pictures by portfolio id
   // Param id refers to Portfolio.Id
   getPortfolioPictures(id: number) {
-    this.portfolioService.getPortfoliosById(id).subscribe( (p: Portfolio[]) => {
-      this.folioPicsToList = p;
+    // this.portfolioService.getPortfoliosById(id).subscribe( (p: Portfolio[]) => {
+      // this.folioPicsToList = p;
+    console.log('getPortfolioPictures(id)->');
+    this.portfolioService.getPortfolioFilesById(id).subscribe( (p: PortfolioFile[]) => {
+        console.log('this.portfolioService.getPortfolioFilesById(id).subscribe(p)->' + JSON.stringify(p) );
+        this.folioFiles = p;
     }, error => {
         console.log('getPortfolioPictures(id) -> ' + id);
         this.alertify.error('Error while listing portfolio picture(s): ' + error);
         this.loading = false;
     });
   }
-
-  addPortfolioPicture() {
-    this.portfolioService.addPortfolioPicture( this.folioPicToAdd ).subscribe( (p: Portfolio[]) => {
-      this.alertify.success('Added Portfolio Picture Info.');
-      this.folioPicsToList = p;
-    }, error => {
-        this.alertify.error('Error while adding portfolio picture info: ' + error);
-        this.loading = false;
-    });
-  }
-
 
   // DELETE api/portfolio/{srcTable}/{id}
   // Params {srcTable} refers to Portfolio(1) or PortfolioPicture(2) source table
@@ -237,5 +238,5 @@ export class PortfolioCreateComponent implements OnInit {
   /// end of file upload routines ///
   ///////////////////////////////////
 
-} // end of PortfolioEditComponent
+} // end of PortfolioCreateEditComponent
 

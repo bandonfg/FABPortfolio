@@ -21,35 +21,10 @@ export class PortfolioService {
   /////////////////////////////////
   /// Portfolio Service Methods ///
   /////////////////////////////////
-
   // GET api/portfolio - get all portfolios
   getPortfolios() {
     return this.http.get<Portfolio[]>(this.baseUrl);
   }
-
-  /* paginated code with error
-  getPortfolios(page?, itemsPerPage?, portfolioParams?): Observable<PaginatedResult<Portfolio[]>> {
-    const paginatedResult: PaginatedResult<Portfolio[]> = new PaginatedResult<Portfolio[]>();
-
-    let params = new HttpParams();
-
-    if (page != null && itemsPerPage != null) {
-      params = params.append('pageNumber', page);
-      params = params.append('pageSize', itemsPerPage);
-    }
-    return this.http.get<Portfolio[]>(this.baseUrl,
-      {observe: 'response', params})
-      .pipe(
-         map(response => {
-           paginatedResult.results = response.body;
-           if (response.headers.get('Pagination') != null) {
-              paginatedResult.pagination = JSON.parse(response.headers.get('Pagination'));
-           }
-           return paginatedResult;
-         })
-      );
-  }
-  */
 
   // GET api/portfolio - get all portfolio and picture(s) by id
   getPortfoliosById(id: number) {
@@ -78,15 +53,24 @@ export class PortfolioService {
   /////////////////////////////////////////
   /// Portfolio Picture Service Methods ///
   /////////////////////////////////////////
-  // POST api/portfolio/picture
+
+  // GET api/portfolio/file - get all picture(s) by portfolio id
+  getPortfolioFilesById(id: number) {
+    return this.http.get<PortfolioFile[]>(this.baseUrl + '/file/' + id);
+  }
+
+  // POST api/portfolio/fileinfo
+  // POST api/portfolio/picture (previous)
   addPortfolioPicture(folioPic: PortfolioFile) {
-    return this.http.post(this.baseUrl + '/picture', folioPic);
+    // return this.http.post(this.baseUrl + '/picture', folioPic);
+    return this.http.post(this.baseUrl + '/fileinfo', folioPic);
   }
 
   // DELETE api/portfolio/picture/id
   deletePortfolioPicture(id: number) {
     console.log('portfolioService->deletePortfolioPicture(id)');
     return this.http.delete(this.baseUrl + '/picture/' + id);
+    
   }
 
 }

@@ -25,7 +25,7 @@ namespace FABPortfolioApp.API.Controllers
         private readonly IMapper _mapper;
         private readonly IHostingEnvironment _hostingEnvironment;
 
-        int newEditPortfolioId;
+        int portfolioIdForUpload;
 
         // constructor
         public PortfolioController(
@@ -57,15 +57,18 @@ namespace FABPortfolioApp.API.Controllers
             return Ok(portfolios);
         }
 
-        // GET api/values/5
-        [HttpGet("{id}")]
+        // GET          api/portfolio/{id}
+        // Description  return specific portfolio and file(s)
+        [HttpGet("{id}", Name="GetPortfolioById")]
         public async Task<IActionResult> GetPortfolioById(int id)
         {
             var portfolio = await _repo.GetPortfolioById(id);
             return Ok(portfolio);
         }
 
-        // POST api/values
+
+        // POST         api/portfolio
+        // Description  Create or add portfolio entry
         [HttpPost]
         public async Task<IActionResult> CreatePortfolio(PortfolioForCreationDto portfolioForCreation)
         {
@@ -73,13 +76,14 @@ namespace FABPortfolioApp.API.Controllers
             _repo.Add<Portfolio>(newPortfolio);
 
             if ( await _repo.SaveAll() )
-                newEditPortfolioId = newPortfolio.Id;
-                return Ok();
+                portfolioIdForUpload = newPortfolio.Id;
+                return Ok(newPortfolio);
                 
              throw new Exception("Portfolio creation failed on save.");
         }
 
-        // PUT api/portfolio/edit/5
+        // PUT          api/portfolio/edit/5
+        // Description  updates portfolio with an id of 5  
         [HttpPut("edit/{id}")]
         public async Task<IActionResult> UpdatePortfolio(int id, PortfolioForUpdateDto portforlioForUpdateDto)
         {
@@ -87,7 +91,7 @@ namespace FABPortfolioApp.API.Controllers
             _repo.Update<Portfolio>(portfolioToUpdate);
 
             if ( await _repo.SaveAll() )
-                newEditPortfolioId = portfolioToUpdate.Id;
+                portfolioIdForUpload = portfolioToUpdate.Id;
                 return Ok();
                 
             throw new Exception($"Updating portfolio {id} failed on save.");
@@ -137,24 +141,34 @@ namespace FABPortfolioApp.API.Controllers
 
             throw new Exception("Error deleting portfolio id " + id);
         }
-    
 
 
-
-        /*  
         ////////////////////////////////////////////////////////////////////////
         // Portfolio File Modules                                             //
         ////////////////////////////////////////////////////////////////////////
-        */
+
+        // GET          api/portfolio/file/{id}
+        // Description  return specific portfolio and file(s)
+        [HttpGet("file/{id}")]
+        public async Task<IActionResult> GetPortfolioFilesById(int id)
+        {
+            var portfolioFiles = await _repo.GetPortfolioFilesById(id);
+            return Ok(portfolioFiles);
+        }
 
 
-        // POST api/portfolio/file
-        [HttpPost("file")]
-        public async Task<IActionResult> UploadFile()
+        // POST api/portfolio/file/id
+        //      if refers to portfolio id
+        // [HttpPost("file/{id}")]
+        [HttpPost("file/{id}")]
+        public async Task<IActionResult> UploadFile(int id)
         {
             try
-            {
+            {   
+                // for debug/test only
+                // throw new Exception("UploadFile(id) -> " + id);
 
+                // file upload routine //
                 var file = Request.Form.Files[0];
                 string folderName = "images";
                 string webRootPath = _hostingEnvironment.WebRootPath;
@@ -175,29 +189,66 @@ namespace FABPortfolioApp.API.Controllers
                         file.CopyTo(stream);
                     }
                 }
+                // end of file upload routine //
 
-                // create portfolio file data
-                var portfolioFileForCreation = new PortfolioFileForCreationDto(); 
+         
+                // add file info portfolio file table //
+                PortfolioFile portfolioFileForCreation = new PortfolioFile(); 
                 portfolioFileForCreation.FileName = fileName;
-                portfolioFileForCreation.PortfolioId = newEditPortfolioId;      
 
-                var portfolio = await _repo.GetPortfolioById(newEditPortfolioId); 
+                if (id < 1)
+                    portfolioFileForCreation.PortfolioId = portfolioIdForUpload;
+                else 
+                    portfolioFileForCreation.PortfolioId = id;
+
+                var portfolio = await _repo.GetPortfolioById(id); 
                 var folioFile = _mapper.Map<PortfolioFile>(portfolioFileForCreation);
                 folioFile.Portfolio = portfolio;    
 
                 _repo.Add<PortfolioFile>(folioFile);
                 if ( await _repo.SaveAll() )
-                    return Ok("Upload Successful.");
+                    return CreatedAtRoute("GetPortfolioById", new {id = id}, portfolio);
+                    // return Ok("Upload Successful.");
                     
                 throw new Exception("Portfolio creation failed on save.");
-            
+                // end of add file info portfolio file table //
             }
             catch (System.Exception ex)
             {
-                // return Json("Upload Failed: " + ex.Message);
                 return BadRequest("Upload Failed: " + ex.Message);
+                // throw new Exception("Upload Failed: " + ex.Message);
             }
         }
+
+
+        // Note: Used for testing portfolio file info save routine
+        //[HttpPost("file")]
+        public async Task<IActionResult> SavePortfolioFileInfo(PortfolioFileForCreationDto folioFileDto) {
+                ////////////////////////////////////////
+                // add file info portfolio file table //
+                ////////////////////////////////////////
+                PortfolioFile portfolioFileForCreation = new PortfolioFile(); 
+                portfolioFileForCreation.FileName = folioFileDto.FileName;
+                portfolioFileForCreation.PortfolioId = folioFileDto.PortfolioId;      
+
+                var portfolio = await _repo.GetPortfolioById(folioFileDto.PortfolioId); 
+                var folioFile = _mapper.Map<PortfolioFile>(portfolioFileForCreation);
+                folioFile.Portfolio = portfolio;    
+
+                _repo.Add<PortfolioFile>(folioFile);
+                if ( await _repo.SaveAll() )
+                    return Ok();
+                    // return CreatedAtRoute("GetPortfolioById", new {id=folioFileDto.PortfolioId}, portfolio);
+                    // return Ok("Upload Successful.");
+                    
+                throw new Exception("Portfolio creation failed on save.");
+                ///////////////////////////////////////////////
+                // end of add file info portfolio file table //
+                ///////////////////////////////////////////////
+        }
+
+
+
 
 
         // https://stackoverflow.com/questions/40214772/file-upload-in-angular
@@ -208,7 +259,7 @@ namespace FABPortfolioApp.API.Controllers
             /* 
                 var portfolioFileForCreation = new PortfolioFileForCreationDto(); 
                 portfolioFileForCreation.FileName = fileName;
-                portfolioFileForCreation.PortfolioId = newEditPortfolioId;      
+                portfolioFileForCreation.PortfolioId = portfolioIdForUpload;      
             */
 
             var portfolio = await _repo.GetPortfolioById(portfolioFileForCreation.PortfolioId); 
