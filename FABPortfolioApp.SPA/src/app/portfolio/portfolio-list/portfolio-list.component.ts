@@ -37,7 +37,7 @@ export class PortfolioListComponent implements OnInit {
     ) {}
 
   ngOnInit() {
-    /* pagination related code 
+    /* pagination related code
     this.route.data.subscribe(data => {
       this.portfolios = data['portfolios'].result;
       this.pagination = data['portfolios'].pagination;

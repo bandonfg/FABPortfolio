@@ -28,10 +28,9 @@ export class PortfolioCreateComponent implements OnInit {
 
   folio: Portfolio;
   folioPicsToList: Portfolio[] = [];
-  
+
   // test new
   folioFiles: PortfolioFile[] = [];
-
 
   folioPicToAdd: any = {};
   portfolioId: number;
@@ -102,7 +101,7 @@ export class PortfolioCreateComponent implements OnInit {
       this.loading = true;
       // assign form field values to this.folio
       this.folio = Object.assign({}, this.folioForm.value);
-      
+
       // Create new portfolio (this.idToEdit is 0)
       if (this.idToEdit === 0) {
           this.portfolioService.createPortfolio(this.folio).subscribe( (res: Portfolio) => {

@@ -1,7 +1,7 @@
 
 <div class="sticky-top alert alert-light pull-right">
 
-    <a *ngIf="!loggedIn()" class="btn btn-sm btn-outline-secondary pull-right " [routerLink]="['/member//login']">
+    <a href="#" *ngIf="!loggedIn()" class="btn btn-sm btn-outline-secondary pull-right " [routerLink]="['/member//login']">
       <i class="fa fa-sign-in"></i> Login   
     </a>
 
@@ -13,7 +13,7 @@
             <a class="dropdown-item" href="#">
               <i class="fa fa-user"></i> Update Account</a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item"  (click)="logout()">
+            <a  href="#" class="dropdown-item"  (click)="logout()">
               <i class="fa fa-sign-out"></i> Logout   
             </a>
           </div>

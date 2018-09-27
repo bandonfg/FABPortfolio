@@ -69,6 +69,7 @@ namespace FABPortfolioApp.API.Controllers
 
         // POST         api/portfolio
         // Description  Create or add portfolio entry
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> CreatePortfolio(PortfolioForCreationDto portfolioForCreation)
         {
@@ -83,7 +84,8 @@ namespace FABPortfolioApp.API.Controllers
         }
 
         // PUT          api/portfolio/edit/5
-        // Description  updates portfolio with an id of 5  
+        // Description  updates portfolio with an id of 5
+        [Authorize]
         [HttpPut("edit/{id}")]
         public async Task<IActionResult> UpdatePortfolio(int id, PortfolioForUpdateDto portforlioForUpdateDto)
         {
@@ -113,6 +115,7 @@ namespace FABPortfolioApp.API.Controllers
         // Description  Deletes portfolio files, portfolio and portfolio files records
         // Params       srcTable - 1 => Portfolio, 2 => PortfolioFile
         //              id       - can either refer to PortfolioId or PortfolioFileId    
+        [Authorize]
         [HttpDelete("{srcTable}/{id}")]
         public async Task<IActionResult> Delete(int srcTable, int id)
         {
@@ -157,9 +160,9 @@ namespace FABPortfolioApp.API.Controllers
         }
 
 
-        // POST api/portfolio/file/id
-        //      if refers to portfolio id
-        // [HttpPost("file/{id}")]
+        // POST         api/portfolio/file/id
+        // Description  if refers to portfolio id
+        [Authorize]
         [HttpPost("file/{id}")]
         public async Task<IActionResult> UploadFile(int id)
         {

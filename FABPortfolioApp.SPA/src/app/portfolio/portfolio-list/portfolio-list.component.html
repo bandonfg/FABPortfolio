@@ -4,10 +4,7 @@
   <div class="my-auto">
     <h2 class="mb-5">Portfolio</h2>
 
-    <!-- show portfolio related links 
-    *ngIf="loggedIn()" 
-    -->
-    <a class="btn btn-sm btn-outline-secondary mb-2" 
+    <a *ngIf="loggedIn()" class="btn btn-sm btn-outline-secondary mb-2" 
         [routerLink]="['/portfolio/create']">
         <i class="fa fa-plus-square"></i> Create Portfolio   
     </a>
@@ -28,7 +25,7 @@
             </div><!-- /# <div class='card-body'>  --> 
 
             <!-- *ngIf="loggedIn()" -->
-            <div class="card-footer">
+            <div *ngIf="loggedIn()" class="card-footer">
               <div  class="btn-group pull-right">
                 <!-- 
                   Comment block here:  Passing Route Parameters in Angular Component
@@ -50,62 +47,6 @@
             </div><!-- /# card-footer -->  
         </div> <!-- /# ngFor -->
     </div> <!-- /# card-deck -->     
-
-
-<!-- div class="d-flex justify-content-center">
-  <pagination
-      [boundaryLinks]="true"
-      [totalItems]="pagination.totalItems"
-      [(ngModel)]="pagination.currentPage"
-      [itemsPerPage]="pagination.itemsPerPage"
-      (pageChanged)="pageChanged($event)"
-    previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;">
-  </pagination>
-</div
-
-as of 9-8-2018, this is the original portfolio-list source code
-
-<div class="row">
-  <div class="col-lg-8 offset-lg-2 col-sm-8 offset-sm-2 col-12">
-      <a *ngIf="loggedIn()" class="btn btn-sm btn-outline-secondary mb-2" 
-        [routerLink]="['/portfolio']">
-        <i class="fa fa-plus-square"></i> Create Portfolio   
-      </a>
-
-      <div *ngFor="let portfolio of portfolios" class="card mb-4">
-          <img class="card-img-top img-fluid" src="{{ folioPicUrl + '/' +  portfolio.portfolioPictures[0].pictureFileName}}" alt="Card image cap">
-
-          <div class="card-body">
-            <h5 class="card-title">{{portfolio.project}} <small class="pull-right">{{portfolio.projDuration}}</small></h5>
-            <h6 class="card-subtitle mb-2 text-muted">
-              {{portfolio.company}} - {{portfolio.location}}
-            </h6>
-            <p class="card-text">{{portfolio.description}}</p>
-
-            <div *ngIf="loggedIn()" class="btn-group pull-right">
-
-              Comment block here:  Passing Route Parameters in Angular Component
-              Comment block here:  https://angular-2-training-book.rangle.io/handout/routing/query_params.html  
-              <a class="btn btn-outline-secondary" [routerLink]="['/portfolio']" 
-                 [queryParams]="{ idToEdit: portfolio.id, 
-                                  project: portfolio.project,   
-                                  description: portfolio.description,   
-                                  projDuration: portfolio.projDuration,
-                                  durationFrom: portfolio.durationFrom,
-                                  durationTo: portfolio.durationTo,
-                                  company: portfolio.company,
-                                  location: portfolio.location }">
-                    Edit    
-              </a>
-                <button class="btn btn-outline-danger" (click)="deletePortfolio(portfolio.id)">Delete</button>
-            </div>
-          </div>
-      </div>
-
-  </div>
-</div>    
-
--->
 
 </div> <!-- /#<div class="my-auto"> -->
 </section>    

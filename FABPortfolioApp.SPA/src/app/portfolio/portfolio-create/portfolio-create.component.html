@@ -46,7 +46,6 @@
                         <label for="url" class="text-dark font-weight-normal" >Url (optional)</label> 
                         <input type="text" formControlName="url" class="form-control form-control-sm"  placeholder="https://" aria-describedby="inputGroupPrepend" required>
                       </div>
-
         
                       <div class="form-group">
                         <label for="from" class="text-dark font-weight-normal" [ngClass]="{'text-primary font-weight-bold': folioForm.get('from').touched && folioForm.get('from').errors || folioForm.get('to').touched && folioForm.get('to').errors}">Work Duration</label> 
@@ -108,11 +107,8 @@
                   </div>
                   
                   <div class="card-columns">
-                    <!--    
-                    <div *ngFor="let folioPic of folioPicsToList.portfolioFiles" class="card text-center">
-                    -->
-                    <div *ngFor="let folioPic of folioFiles" class="card text-center">
-                          <img class="img-fluid " src="{{ folioPicUrl + '/' +  folioPic.fileName}}">
+                    <div *ngFor="let folioPic of folioFiles" class="card text-center" style="min-width: 10rem; max-width: 10rem; ">
+                          <img style="height: 5rem;" class="img-fluid " src="{{ folioPicUrl + '/' +  folioPic.fileName}}">
                           <div class="card-body">
                             <div class="btn-group mb-1">
                                 <button class="btn btn-sm btn-outline-danger" (click)="deletePortfolioPicture(folioPic.id)">
