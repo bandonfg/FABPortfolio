@@ -21,7 +21,7 @@ import { PortfolioFile } from '../../_models/portfolioFile';
 
 export class PortfolioListComponent implements OnInit {
 
-  folioPicUrl: string = environment.rootUrl + '/images';
+  folioPicUrl: string = environment.rootUrl + 'assets/images';
 
   loggedUser: any;
 

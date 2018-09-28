@@ -13,7 +13,7 @@ import { PortfolioService } from '../../_services/portfolio.service';
 })
 export class PortfolioDetailComponent implements OnInit {
 
-  folioPicUrl: string = environment.rootUrl + '/images';
+  folioPicUrl: string = environment.rootUrl + 'assets/images';
   portfolio: any;
   portfolioIdToQuery: number;
   isFirstCarouselPic: boolean;

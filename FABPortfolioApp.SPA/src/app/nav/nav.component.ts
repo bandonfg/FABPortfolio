@@ -9,7 +9,7 @@ import { environment } from '../../environments/environment';
 })
 export class NavComponent implements OnInit, AfterViewInit {
 
-  profilePic: string = environment.rootUrl + '/images/profile.jpg';
+  profilePic: string = environment.rootUrl + 'assets/images/profile.jpg';
 
   private fragment: string;
 

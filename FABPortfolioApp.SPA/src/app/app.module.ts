@@ -8,6 +8,7 @@ import { AppComponent } from './app.component';
 import { appRoutes } from './routes';
 import { ErrorInterceptorProvider } from './_services/error.interceptor';
 
+import { AuthGuard } from './_guards/auth.guard';
 import { BsDatepickerModule, PaginationModule } from 'ngx-bootstrap';
 
 // service imports
@@ -27,6 +28,11 @@ import { PortfolioListResolver } from './_resolvers/portfolio-list.resolver';
 import { PortfolioListComponent } from './portfolio/portfolio-list/portfolio-list.component';
 import { PortfolioDetailComponent } from './portfolio/portfolio-detail/portfolio-detail.component';
 import { PortfolioCreateComponent } from './portfolio/portfolio-create/portfolio-create.component';
+import { JwtModule } from '@auth0/angular-jwt';
+
+export function tokenGetter() {
+  return localStorage.getItem('token');
+}
 
 @NgModule({
    declarations: [
@@ -45,11 +51,19 @@ import { PortfolioCreateComponent } from './portfolio/portfolio-create/portfolio
       ReactiveFormsModule,
       HttpClientModule,
       PaginationModule.forRoot(),
-      RouterModule.forRoot(appRoutes)
+      RouterModule.forRoot(appRoutes, {useHash: true}),
+      JwtModule.forRoot({
+        config: {
+          tokenGetter: tokenGetter,
+          whitelistedDomains: ['localhost:5000'],
+          blacklistedRoutes: ['localhost:5000/api/auth']
+        }
+      })
    ],
     providers: [
       AlertifyService,
       UtilityService,
+      AuthGuard,
       ErrorInterceptorProvider,
       PortfolioListResolver
     ],

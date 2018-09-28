@@ -29,3 +29,17 @@ export const appRoutes: Routes = [
     },
     {path: '**', redirectTo: '', pathMatch: 'full'},
 ];
+
+
+/*
+    {
+        path: '',
+        runGuardsAndResolvers: 'always',
+        canActivate: [AuthGuard],
+        children: [
+            {path: 'portfolio/create', component: PortfolioCreateComponent},
+            {path: 'portfolio/edit', component: PortfolioCreateComponent},
+        ]
+    },
+
+*/

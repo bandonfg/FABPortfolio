@@ -173,7 +173,7 @@ namespace FABPortfolioApp.API.Controllers
 
                 // file upload routine //
                 var file = Request.Form.Files[0];
-                string folderName = "images";
+                string folderName = "assets/images";
                 string webRootPath = _hostingEnvironment.WebRootPath;
                 string newPath = Path.Combine(webRootPath, folderName);
                 string fileName = "";

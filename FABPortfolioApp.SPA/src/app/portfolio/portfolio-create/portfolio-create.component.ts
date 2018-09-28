@@ -18,7 +18,7 @@ import { Portfolios } from '../../_models/portfolios';
 })
 export class PortfolioCreateComponent implements OnInit {
 
-  folioPicUrl = environment.rootUrl + '/images';
+  folioPicUrl = environment.rootUrl + 'assets/images';
   uploadUrl = environment.apiUrl + '/portfolio/file';
 
   folioForm: FormGroup;
