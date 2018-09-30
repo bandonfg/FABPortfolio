@@ -17,7 +17,6 @@ export class PortfolioListResolver implements Resolve<Portfolio[]> {
         private router: Router,
         private alertify: AlertifyService) {}
 
-        
     resolve(route: ActivatedRouteSnapshot): Observable<Portfolio[]> {
         // return this.portfolioService.getPortfolios(this.pageNumber, this.pageSize).pipe(
         return this.portfolioService.getPortfolios().pipe(

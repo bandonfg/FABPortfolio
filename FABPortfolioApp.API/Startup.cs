@@ -48,12 +48,22 @@ namespace FABPortfolioApp.API
             // for production or deployment, use MySql db
             // ConfigureWarnings was set to ignore annoying query warnings 
             // ConfigureWarnings can also be added to SQLite if needed
+            /* 
             services.AddDbContext<DataContext>(x => 
                 x.UseMySql(Configuration
                  .GetConnectionString("DefaultConnection"))
                  .ConfigureWarnings(warnings => 
                  warnings.Ignore(CoreEventId.IncludeIgnoredWarning))
             );
+            */
+            services.AddDbContext<DataContext>(x => 
+                x.UseSqlServer(Configuration
+                 .GetConnectionString("DefaultConnection"))
+                 .ConfigureWarnings(warnings => 
+                 warnings.Ignore(CoreEventId.IncludeIgnoredWarning))
+            );
+
+
 
             // set User password registration requirement 
             IdentityBuilder builder = services.AddIdentityCore<User>(opt =>
@@ -136,10 +146,13 @@ namespace FABPortfolioApp.API
         }
 
         // Note: By convention this method will be used when in development mode
+        // commented due to the use of sql server db
+        /*
         public void ConfigureDevelopmentServices(IServiceCollection services)
         {
             // configure DataContext, Database and Connection String
-            services.AddDbContext<DataContext> ( x => x.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
+            // commented due to the use of sql server db
+            // services.AddDbContext<DataContext> ( x => x.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
             
             // for deployment, use MySql db
             // services.AddDbContext<DataContext>(x => x.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
@@ -205,25 +218,11 @@ namespace FABPortfolioApp.API
             // services.AddScoped<LogUserActivity>();
 
             // add jwt token based authentication
-            /* 
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(options => {
-                     options.TokenValidationParameters = new TokenValidationParameters
-                     {
-                         ValidateIssuerSigningKey = true,
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII
-                             .GetBytes(Configuration.GetSection("AppSettings:Token").Value)),
-                         ValidateIssuer = false,
-                         ValidateAudience = false
-                     };
-            });
-            */
 
             // required to be added later
             // services.AddScoped<LogUserActivity>();
-
         }
-
+        ** End of ConfigureDevelopmentServices */
 
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

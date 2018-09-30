@@ -46,6 +46,7 @@ namespace FABPortfolioApp.API.Controllers
         // Portfolio File Modules                                             //
         ////////////////////////////////////////////////////////////////////////
         */
+        // sort, search, and paging features will be added here
         // GET api/values
         [HttpGet( Name="GetPortfolios" )]
         public async Task<IActionResult> GetPortfolios()
@@ -63,6 +64,16 @@ namespace FABPortfolioApp.API.Controllers
         public async Task<IActionResult> GetPortfolioById(int id)
         {
             var portfolio = await _repo.GetPortfolioById(id);
+            return Ok(portfolio);
+        }
+
+
+        // GET          api/portfolio/company
+        // Description  return specific portfolio and file(s)
+        [HttpGet("company")]
+        public async Task<IActionResult> GetUniquePortfolioCompanies(int id)
+        {
+            var portfolio = await _repo.GetUniquePortfolioCompanyList();
             return Ok(portfolio);
         }
 
@@ -279,6 +290,9 @@ namespace FABPortfolioApp.API.Controllers
                 
              throw new Exception("Portfolio creation failed on save.");
         }
+
+
+
 
     }
 }

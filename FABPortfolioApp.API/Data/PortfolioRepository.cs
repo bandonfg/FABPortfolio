@@ -6,6 +6,7 @@ using FABPortfolioApp.API.Data;
 using System.Linq.Expressions;
 using System;
 using System.Linq;
+using FABPortfolioApp.API.Dtos;
 
 namespace FABPortfolioApp.API.Data
 {
@@ -13,6 +14,7 @@ namespace FABPortfolioApp.API.Data
     {
         Task<IEnumerable<Portfolio>> GetPortfolios();
         Task<Portfolio> GetPortfolioById(int id);
+        Task<IEnumerable<String>> GetUniquePortfolioCompanyList();
         Task<PortfolioFile> GetPortfolioFileById(int id);
         Task<IEnumerable<PortfolioFile>> GetPortfolioFilesById(int id);
         void Add<T>(T entity) where T : class;
@@ -42,6 +44,7 @@ namespace FABPortfolioApp.API.Data
             return portfolioFiles; 
         }
 
+
         public async Task<Portfolio> GetPortfolioById(int id)
         {
             var portfolio = await _context.Portfolios
@@ -49,6 +52,18 @@ namespace FABPortfolioApp.API.Data
                                           .FirstOrDefaultAsync( p => p.Id == id );
             return portfolio; 
         }
+
+        // get unit portfolio company list 
+        public async Task<IEnumerable<String>> GetUniquePortfolioCompanyList()
+        {
+            var portfolio = await _context.Portfolios
+                                          .Select( p => p.Company )  
+                                          .Distinct()
+                                          .ToListAsync();
+            return portfolio; 
+        }
+
+
 
         public async Task<PortfolioFile> GetPortfolioFileById(int id)
         {

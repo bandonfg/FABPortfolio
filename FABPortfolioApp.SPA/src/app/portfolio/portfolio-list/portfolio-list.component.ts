@@ -29,6 +29,8 @@ export class PortfolioListComponent implements OnInit {
   portfolios: Portfolio[] = [];
   pagination: Pagination;
 
+  companies: string[] = [];
+
   constructor(
     private http: HttpClient,
     private route: ActivatedRoute,
@@ -43,6 +45,7 @@ export class PortfolioListComponent implements OnInit {
       this.pagination = data['portfolios'].pagination;
     });
     */
+    this.getUniquePortfolioCompanies();
     this.loadAllPortfolios();
   }
 
@@ -57,6 +60,17 @@ export class PortfolioListComponent implements OnInit {
     this.pagination.currentPage = event.page;
     this.loadAllPortfolios();
   }
+
+  getUniquePortfolioCompanies() {
+    this.portfolioService.getUniquePortfolioCompanies()
+    .subscribe( (res: string[]) => {
+      this.companies = res;
+      console.log('unique companies loaded.');
+    }, error => {
+      console.log('unique companies load error: ' + error);
+    });
+  }
+
 
   loadAllPortfolios() {
     this.portfolioService.getPortfolios()

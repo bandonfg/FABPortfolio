@@ -31,6 +31,12 @@ export class PortfolioService {
     return this.http.get<Portfolio[]>(this.baseUrl + '/' + id);
   }
 
+  // GET api/portfolio/company - get unique list of portfolio companies
+  getUniquePortfolioCompanies() {
+    return this.http.get<string[]>(this.baseUrl + '/company');
+  }
+
+
   // DELETE   api/portfolio
   // deletePortfolio(srcTable: number, id: number)
   // Params   srcTable can be Portfolio(1) or PortfolioPicture (2)
