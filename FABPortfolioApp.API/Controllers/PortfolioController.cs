@@ -10,6 +10,8 @@ using AutoMapper;
 using FABPortfolioApp.API.Dtos;
 using FABPortfolioApp.API.Data;
 using FABPortfolioApp.API.Models;
+using FABPortfolioApp.API.Helpers;
+
 using System.IO;
 using System.Net.Http.Headers;
 
@@ -27,6 +29,7 @@ namespace FABPortfolioApp.API.Controllers
 
         int portfolioIdForUpload;
 
+        #region PortfolioController Constructor
         // constructor
         public PortfolioController(
                DataContext context, 
@@ -40,6 +43,8 @@ namespace FABPortfolioApp.API.Controllers
             _hostingEnvironment = hostingEnvironment;
         }
         // end of constructor
+        #endregion
+
 
         /*  
         ////////////////////////////////////////////////////////////////////////
@@ -47,7 +52,9 @@ namespace FABPortfolioApp.API.Controllers
         ////////////////////////////////////////////////////////////////////////
         */
         // sort, search, and paging features will be added here
-        // GET api/values
+        // GET api/portfolio
+        
+        /* Original Code without pagination 10012018 
         [HttpGet( Name="GetPortfolios" )]
         public async Task<IActionResult> GetPortfolios()
         {
@@ -57,6 +64,30 @@ namespace FABPortfolioApp.API.Controllers
             var portfolios = _mapper.Map<IEnumerable<Portfolio>>(portfoliosFromRepo);
             return Ok(portfolios);
         }
+        */
+        // [HttpGet("{pageNumber}/{pageSize}", Name="GetPortfolios" )]
+        [HttpGet(Name="GetPortfolios" )]
+        public async Task<IActionResult> GetPortfolios(int pageNumber, int pageSize)
+        {
+
+            if (pageSize <= 0)
+                pageSize = 2;
+            if (pageNumber <= 0)
+                pageNumber = 1;
+
+            var portfoliosFromRepo = await _repo.GetPortfolios(pageNumber, pageSize);
+            // use custom DTos to limit or add fields to display
+
+            var portfoliosToReturn = new {
+                TotalCount = _repo.GetPortfolioCount(),
+                TotalPages = Math.Ceiling((double)portfoliosFromRepo.Count() / pageSize),
+                Portfolios = portfoliosFromRepo
+            };
+
+            return Ok(portfoliosToReturn);
+        }
+
+
 
         // GET          api/portfolio/{id}
         // Description  return specific portfolio and file(s)
@@ -290,9 +321,5 @@ namespace FABPortfolioApp.API.Controllers
                 
              throw new Exception("Portfolio creation failed on save.");
         }
-
-
-
-
     }
 }

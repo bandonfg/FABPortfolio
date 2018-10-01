@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { environment } from '../../environments/environment';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { Observable, pipe } from 'rxjs';
 
+import { environment } from '../../environments/environment';
 import { Portfolio } from '../_models/portfolio';
 import { PortfolioFile } from '../_models/portfolioFile';
 import { PaginatedResult } from '../_models/pagination';
-import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 // strange error when providedIn: 'root' is removed
@@ -22,9 +22,23 @@ export class PortfolioService {
   /// Portfolio Service Methods ///
   /////////////////////////////////
   // GET api/portfolio - get all portfolios
+
+  /* orig code without pagination 
   getPortfolios() {
     return this.http.get<Portfolio[]>(this.baseUrl);
   }
+  */
+
+ getPortfolios(pageNumber: any, pageSize: any) {
+
+    const headers = new HttpHeaders();
+    headers.append('Content-Type', 'application/json');
+    const params = new HttpParams()
+        .set('pageNumber', pageNumber)
+        .set('pageSize', pageSize);
+    return this.http.get<Portfolio[]>(this.baseUrl, {headers: headers, params: params} );
+ }
+
 
   // GET api/portfolio - get all portfolio and picture(s) by id
   getPortfoliosById(id: number) {

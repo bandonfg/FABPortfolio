@@ -9,6 +9,8 @@ namespace DatingApp.API.Helpers
     {
         public AutoMapperProfiles()
         {
+            CreateMap<Portfolio, PortfolioFileForListDto>();
+
             // Portfolio
             CreateMap<PortfolioForCreationDto, Portfolio>();
             CreateMap<PortfolioForUpdateDto, Portfolio>();

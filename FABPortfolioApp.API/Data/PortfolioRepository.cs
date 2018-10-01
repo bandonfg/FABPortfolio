@@ -7,12 +7,15 @@ using System.Linq.Expressions;
 using System;
 using System.Linq;
 using FABPortfolioApp.API.Dtos;
+using FABPortfolioApp.API.Helpers;
 
 namespace FABPortfolioApp.API.Data
 {
     public interface IPortfolioRepository
     {
-        Task<IEnumerable<Portfolio>> GetPortfolios();
+        // Task<IEnumerable<Portfolio>> GetPortfolios();
+        Task<IEnumerable<Portfolio>> GetPortfolios(int pageNumber, int pageSize);
+        int GetPortfolioCount();
         Task<Portfolio> GetPortfolioById(int id);
         Task<IEnumerable<String>> GetUniquePortfolioCompanyList();
         Task<PortfolioFile> GetPortfolioFileById(int id);
@@ -27,16 +30,39 @@ namespace FABPortfolioApp.API.Data
     public class PortfolioRepository : IPortfolioRepository
     {
         private readonly DataContext _context;
+
+        int totalPortfolioCount = 0;
         public PortfolioRepository(DataContext context)
         {
             _context = context;
         }
 
+        /*orig code without pagination
         public async Task<IEnumerable<Portfolio>> GetPortfolios()
         {
             var portfolios = await _context.Portfolios.Include(pf => pf.PortfolioFiles ).ToListAsync();
             return portfolios; 
         }
+         */
+        public async Task<IEnumerable<Portfolio>> GetPortfolios(int pageNumber, int pageSize)
+        {
+             
+
+            var portfolios = await 
+                _context.Portfolios
+                        .Include(pf => pf.PortfolioFiles )
+                        .OrderByDescending(o=>o.Id)
+                        .Skip( (pageNumber - 1) * pageSize )
+                        .Take(pageSize)
+                        .ToListAsync();
+
+            return portfolios; 
+        }
+
+        public int GetPortfolioCount() {
+            return  _context.Portfolios.Count();
+        }
+
 
          public async Task<IEnumerable<PortfolioFile>> GetPortfolioFilesById(int id)
         {

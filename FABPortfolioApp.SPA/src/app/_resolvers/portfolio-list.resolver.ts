@@ -18,10 +18,10 @@ export class PortfolioListResolver implements Resolve<Portfolio[]> {
         private alertify: AlertifyService) {}
 
     resolve(route: ActivatedRouteSnapshot): Observable<Portfolio[]> {
-        // return this.portfolioService.getPortfolios(this.pageNumber, this.pageSize).pipe(
-        return this.portfolioService.getPortfolios().pipe(
+        return this.portfolioService.getPortfolios(this.pageNumber, this.pageSize).pipe(
+        // return this.portfolioService.getPortfolios().pipe(
             catchError(error => {
-                this.alertify.error('PortfolioListResolver:Problem retrieving data');
+                this.alertify.error('PortfolioListResolver: Problem retrieving data');
                 this.router.navigate(['/home']);
                 return of(null);
             })

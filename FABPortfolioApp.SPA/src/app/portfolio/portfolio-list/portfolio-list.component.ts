@@ -29,7 +29,16 @@ export class PortfolioListComponent implements OnInit {
   portfolios: Portfolio[] = [];
   pagination: Pagination;
 
+  // list of companies used by filter dropdown list
   companies: string[] = [];
+
+  public totalItems: number;
+  public pageSize: number;
+  public currentPage: number;
+  public totalPages: number;
+  pageChanged = false;
+  pages: any[] = [];
+
 
   constructor(
     private http: HttpClient,
@@ -46,7 +55,9 @@ export class PortfolioListComponent implements OnInit {
     });
     */
     this.getUniquePortfolioCompanies();
-    this.loadAllPortfolios();
+    
+    this.pageSize = 2;
+    this.loadAllPortfolios(1, this.pageSize);
   }
 
   loggedIn() {
@@ -56,11 +67,7 @@ export class PortfolioListComponent implements OnInit {
   }
 
 
-  pageChanged(event: any): void {
-    this.pagination.currentPage = event.page;
-    this.loadAllPortfolios();
-  }
-
+  
   getUniquePortfolioCompanies() {
     this.portfolioService.getUniquePortfolioCompanies()
     .subscribe( (res: string[]) => {
@@ -71,13 +78,38 @@ export class PortfolioListComponent implements OnInit {
     });
   }
 
+  setToPage(pageNumber: number): void {
+    this.pageChanged = true;
+    this.loadAllPortfolios(pageNumber, this.pageSize);
+    this.pageChanged = false;
+  }
 
-  loadAllPortfolios() {
-    this.portfolioService.getPortfolios()
-    .subscribe( (res: Portfolio[]) => {
-      this.portfolios = res;
+  loadAllPortfolios(pageNumber: number, pageSize: number) {
+    this.portfolioService.getPortfolios(pageNumber, pageSize)
+    .subscribe( (res: any) => {
+        console.log('Paging->portfolio-list->loadAllPortfolios()->res' + JSON.stringify(res));
+
+        // get the portfolios data
+        this.portfolios = res.portfolios;
+
+        console.log('this.portfolios->' + this.portfolios);
+        // get paging info
+        this.totalItems = res.totalCount;
+        // this.pageSize = pageSize;
+        this.currentPage = pageNumber;
+        this.totalPages = res.totalPages;
+
+        let portfolioPageCtr = 1;
+
+        // calculate pages
+        this.pages = [];
+        for (portfolioPageCtr = 0; portfolioPageCtr < Math.ceil(this.totalItems / pageSize); portfolioPageCtr++) {
+            this.pages[portfolioPageCtr] = portfolioPageCtr + 1;
+        }
       console.log('portfolios loaded.');
+
     }, error => {
+      this.pageChanged = false;
       console.log('portfolio load error: ' + error);
     });
 
@@ -103,7 +135,8 @@ export class PortfolioListComponent implements OnInit {
       this.portfolioService.deletePortfolio(1, id).subscribe(() => {
         this.alertify.success('Portfolio has been deleted');
         // refresh portfolio list
-        this.loadAllPortfolios();
+        // this.loadAllPortfolios();
+        this.loadAllPortfolios(this.currentPage, this.pageSize);
       }, error => {
         this.alertify.error('Delete portfolio error: ' + error);
       });
