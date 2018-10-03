@@ -11,6 +11,7 @@ import { Portfolio } from '../_models/portfolio';
 export class PortfolioListResolver implements Resolve<Portfolio[]> {
     pageNumber = 1;
     pageSize = 2;
+    companyFilter = '';
 
     constructor(
         private portfolioService: PortfolioService,
@@ -18,7 +19,7 @@ export class PortfolioListResolver implements Resolve<Portfolio[]> {
         private alertify: AlertifyService) {}
 
     resolve(route: ActivatedRouteSnapshot): Observable<Portfolio[]> {
-        return this.portfolioService.getPortfolios(this.pageNumber, this.pageSize).pipe(
+        return this.portfolioService.getPortfolios(this.pageNumber, this.pageSize, this.companyFilter).pipe(
         // return this.portfolioService.getPortfolios().pipe(
             catchError(error => {
                 this.alertify.error('PortfolioListResolver: Problem retrieving data');

@@ -1,7 +1,5 @@
 
-
-
-<div class="row my-3 animated bounceInDown">
+<div class="row my-3 animated bounceInDown m-2" >
   <div class="col-lg-6 offset-lg-3 col-sm-6 offset-sm-3 col-12">
       <div class="card  border-secondary">
         <div class="card-header">
@@ -21,8 +19,7 @@
             </nav>
             <div class="tab-content" id="nav-tabContent">
               <div class="tab-pane fade " [ngClass]="{'show active': !submitted}" id="nav-folioDetails" role="tabpanel" aria-labelledby="nav-folioDetails-tab">
-
-                    <fieldset [disabled]="submitted" class="my-2">
+                  <fieldset [disabled]="submitted" class="my-2">
 
                     <form  [formGroup]="folioForm" (ngSubmit)="submitPortfolioEntries()" >
                       <div class="form-group">
@@ -44,7 +41,7 @@
 
                       <div class="form-group">
                         <label for="url" class="text-dark font-weight-normal" >Url (optional)</label> 
-                        <input type="text" formControlName="url" class="form-control form-control-sm"  placeholder="https://" aria-describedby="inputGroupPrepend" required>
+                        <input type="text" formControlName="url" class="form-control form-control-sm"  placeholder="https://" aria-describedby="inputGroupPrepend">
                       </div>
         
                       <div class="form-group">
@@ -81,13 +78,22 @@
                         </div>
                       </div>
 
-                      <div class="form-group">
-                        <button  type="submit" [disabled]="folioForm.invalid || loading || submitted"
-                          class="btn btn-sm btn-outline-secondary pull-right">
-                          <span *ngIf="idToEdit > 0">Update Portfolio</span>
-                          <span *ngIf="idToEdit == 0">Create Portfolio</span>
-                          <i *ngIf="loading" class="fa fa-spinner fa-spin" style="font-size:20px"></i> 
-                        </button>
+                      <div class="btn-group  pull-right">
+                        <!-- link will appear when page is viewed in low res devices such as phones, tablet     
+                            this is not required from this page  -->
+                        <a class="d-block d-lg-none btn btn-sm btn-outline-secondary mb-2 " 
+                            [routerLink]="['/portfolio']">
+                            Portfolio List
+                        </a>
+                        &nbsp;
+                        <div>
+                            <button  type="submit" [disabled]="folioForm.invalid || loading || submitted"
+                                class="btn btn-sm btn-secondary">
+                                <span *ngIf="idToEdit > 0">Update Portfolio</span>
+                                <span *ngIf="idToEdit == 0">Create Portfolio</span>
+                                <i *ngIf="loading" class="fa fa-spinner fa-spin" style="font-size:20px"></i> 
+                            </button>
+                        </div>
                       </div>
                     </form>
                   </fieldset>
@@ -125,6 +131,7 @@
               </div> 
             </div>
         </div><!-- card body -->
+
       </div> <!-- card -->
       <!-- 
         {{ folioForm.status | json }}

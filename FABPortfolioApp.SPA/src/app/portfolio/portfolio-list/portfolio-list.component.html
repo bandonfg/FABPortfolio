@@ -1,35 +1,95 @@
 
+<!-- 
+    <div class="sticky-top alert alert-light pull-right">
+
+        <a href="#" *ngIf="!loggedIn()" class="btn btn-sm btn-outline-secondary pull-right " [routerLink]="['/member//login']">
+          <i class="fa fa-sign-in"></i>    
+        </a>
+    
+        <div *ngIf="loggedIn()" class="btn-group pull-right" >
+            <button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Welcome {{ this.loggedUser.firstName }}
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <a class="dropdown-item" href="#">
+                  <i class="fa fa-user-circle"></i> Update Account
+                </a>
+                <a class="dropdown-item" href="#">
+                  <i class="fa fa-users"></i> Visitor Logs
+                </a>
+                <div class="dropdown-divider"></div>
+                <a  href="#" class="dropdown-item"  (click)="logout()">
+                  <i class="fa fa-sign-out"></i> Logout   
+                </a>
+              </div>
+        </div>
+    </div>
+-->
+
+<!-- Show spinner loading icon 
+<div *ngIf="pageLoading" id="pluswrap1" class="resume-section p-3 p-lg-5 d-flex flex-column">
+    <div class="plus1 h1">
+        <i  class="fa fa-refresh fa-spin" ></i> 
+        &nbsp;Loading...
+    </div>
+</div>
+-->
 
 <section class="resume-section p-3 p-lg-5 d-flex flex-column" id="experience">
   <div class="my-auto">
-    <h2 class="mb-5">Portfolio</h2>
+    <h2 class="mb-5">
+        <i *ngIf="pageLoading" class="fa fa-refresh fa-spin"></i>
+        Portfolio
+    </h2>
 
-    <div class="btn-toolbar mb-3" role="toolbar" aria-label="Toolbar with button groups">
-        <div class="btn-group mr-2" role="group" aria-label="First group">
-            <!-- Add Portfolio for auth user only -->
-            <a *ngIf="loggedIn()" class="btn btn-sm btn-outline-secondary mb-2" 
-                [routerLink]="['/portfolio/create']">
-                <i class="fa fa-plus-square"></i> Add Portfolio   
-            </a>
-        </div>
-        <div class="input-group" role="group" aria-label="First group">
-            <select class="form-control form-control-sm" id="exampleFormControlSelect1">
-                <option>View All Projects</option>
-                <option *ngFor="let company of companies">
-                  {{ company }}
-                </option>
-            </select>
-        </div>
-
+    <!-- center bootstrap 4 toolbar 
+    d-flex justify-content-center
+    <div class="btn-toolbar mb-2 " role="toolbar">
     </div>
-    
+
+    horizontally centered 
+    d-flex justify-content-center
+
+    will appear when viewed in low res or small screen
+    d-block d-lg-none 
+
+    will appear when viewed in high res or big screen
+    d-none d-lg-block
+    -->
+    <!-- nav toolbar -->
+    <div class="btn-group mb-2 " role="group">
+            <!-- *ngIf="loggedIn()" -->
+            <button *ngIf="loggedIn()" [routerLink]="['/portfolio/create']"
+                    title="add portfolio" 
+                    type="button" class="btn btn-secondary">
+                <i class="fa fa-plus-square"></i>
+            </button>
+
+            <div class="btn-group">
+                <button  type="button" disabled class="btn btn-outline-secondary text-dark">
+                    List
+                </button>
+                
+                <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    {{ ( companyFilter || 'All Projects') }}
+                </button>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" (click)="filterByCompany('')">All Projects</a>
+                    <div class="dropdown-divider"></div>
+                    <a *ngFor="let company of companies" (click)="filterByCompany(company)" class="dropdown-item" >
+                        {{company}}
+                    </a>
+                </div>
+            </div>
+    </div>
+
 
     <!-- show portfolios using bootstrap cards -->
-    <div class="card-deck animated bounceInDown" >
-        <div *ngFor="let portfolio of portfolios" class="card mb-4" style="min-width: 20rem; max-width: 20rem; ">
+    <div class="card-deck animated bounceInDown">
+        <div *ngFor="let portfolio of portfolios" class="card mb-4" style="min-width: 16rem; max-width: 16rem; ">
 
             <a [routerLink]="['/portfolio/detail/']" [queryParams]="{ id: portfolio.id}" >
-               <img  class="card-img-top" style="height: 13rem;" src="{{ folioPicUrl + '/' +  portfolio.portfolioFiles[0].fileName}}" alt="Portfolio image">
+               <img  class="card-img-top" style="height: 12rem;" src="{{ folioPicUrl + '/' +  portfolio.portfolioFiles[0].fileName}}" alt="Portfolio image">
             </a>
           
             <div class="card-body">
@@ -40,25 +100,33 @@
             </div><!-- /# <div class='card-body'>  --> 
 
             <!-- *ngIf="loggedIn()" -->
-            <div *ngIf="loggedIn()" class="card-footer">
-              <div  class="btn-group pull-right">
-                <!-- 
-                  Comment block here:  Passing Route Parameters in Angular Component
-                  Comment block here:  https://angular-2-training-book.rangle.io/handout/routing/query_params.html  
-                -->    
-                <a class="btn btn-sm btn-secondary" [routerLink]="['/portfolio/edit']" 
-                  [queryParams]="{ idToEdit: portfolio.id, 
-                                   project: portfolio.project,   
-                                   description: portfolio.description,   
-                                   from: portfolio.from,
-                                   to: portfolio.to,
-                                   company: portfolio.company,
-                                   location: portfolio.location,
-                                   url: portfolio.url }">
-                      Edit    
+            <div *ngIf="loggedIn()"  class="card-footer">
+                <!-- link will appear when page is viewed in low res devices such as phones, tablet     
+                     this is not required from this page
+                <a class="d-block d-lg-none btn btn-sm btn-outline-secondary mb-2 pull-left" 
+                    [routerLink]="['/portfolio/create']">
+                    Portfolios
                 </a>
-                  <button class="btn btn-sm btn-danger" (click)="deletePortfolio(portfolio.id)">Delete</button>
-              </div><!-- /# card-body -->
+                -->
+  
+                <div  class="btn-group pull-right">
+                    <!-- 
+                    Comment block here:  Passing Route Parameters in Angular Component
+                    Comment block here:  https://angular-2-training-book.rangle.io/handout/routing/query_params.html  
+                    -->    
+                    <a class="btn btn-sm btn-secondary" [routerLink]="['/portfolio/edit']" 
+                    [queryParams]="{ idToEdit: portfolio.id, 
+                                    project: portfolio.project,   
+                                    description: portfolio.description,   
+                                    from: portfolio.from,
+                                    to: portfolio.to,
+                                    company: portfolio.company,
+                                    location: portfolio.location,
+                                    url: portfolio.url }">
+                        Edit    
+                    </a>
+                    <button class="btn btn-sm btn-danger" (click)="deletePortfolio(portfolio.id)">Delete</button>
+                </div><!-- /# card-body -->
             </div><!-- /# card-footer -->  
         </div> <!-- /# ngFor -->
     </div> <!-- /# card-deck --> 

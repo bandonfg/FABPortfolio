@@ -29,13 +29,15 @@ export class PortfolioService {
   }
   */
 
- getPortfolios(pageNumber: any, pageSize: any) {
+ getPortfolios(pageNumber: any, pageSize: any, companyFilter: string) {
 
     const headers = new HttpHeaders();
     headers.append('Content-Type', 'application/json');
     const params = new HttpParams()
         .set('pageNumber', pageNumber)
-        .set('pageSize', pageSize);
+        .set('pageSize', pageSize)
+        .set('companyFilter', companyFilter);
+
     return this.http.get<Portfolio[]>(this.baseUrl, {headers: headers, params: params} );
  }
 

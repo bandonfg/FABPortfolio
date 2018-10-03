@@ -1,6 +1,7 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { environment } from '../../environments/environment';
+import { AuthService } from '../_services/auth.service';
 
 @Component({
   selector: 'app-nav',
@@ -12,9 +13,11 @@ export class NavComponent implements OnInit, AfterViewInit {
   profilePic: string = environment.rootUrl + 'assets/images/profile.jpg';
 
   private fragment: string;
+  loggedUser: any;
 
   constructor(
-    private route: ActivatedRoute) {}
+    private route: ActivatedRoute,
+    private authService: AuthService) {}
 
   // init route fragment
   ngOnInit() {
@@ -28,4 +31,15 @@ export class NavComponent implements OnInit, AfterViewInit {
       document.querySelector('#' + this.fragment).scrollIntoView();
     } catch (e) { }
   }
+
+  loggedIn() {
+    const token = localStorage.getItem('token');
+    this.loggedUser = JSON.parse(localStorage.getItem('user'));
+    return !!token;
+  }
+
+  logout() {
+    this.authService.logout();
+  }
+
 }

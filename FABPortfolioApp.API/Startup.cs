@@ -116,6 +116,8 @@ namespace FABPortfolioApp.API
             services.AddTransient<Seed>();
             // repo for login, registration, 
             services.AddScoped<IAuthRepository, AuthRepository>();
+            services.AddScoped<IUtilService, UtilService>();
+
 
             // admin related repo: GetUsers, GetUserById, Roles 
             // and User Management service

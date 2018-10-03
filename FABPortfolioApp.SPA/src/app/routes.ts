@@ -1,5 +1,6 @@
 import {Routes} from '@angular/router';
 import { AuthGuard } from './_guards/auth.guard';
+import { ContactMeComponent } from './contact-me/contact-me.component';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { MemberRegistrationComponent } from './members/member-registration/member-registration.component';
@@ -12,6 +13,7 @@ import { PortfolioCreateComponent } from './portfolio/portfolio-create/portfolio
 
 export const appRoutes: Routes = [
     {path: '', component: HomeComponent},
+    {path: 'contact-me', component: ContactMeComponent},
     {path: 'home', component: HomeComponent},
     {path: 'member/login', component: LoginComponent},
     {path: 'member/register', component: MemberRegistrationComponent},

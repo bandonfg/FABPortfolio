@@ -1,50 +1,85 @@
 
 <section class="resume-section p-3 p-lg-5 d-flex flex-column" id="experience">
     <div class="my-auto">
-      <h2 class="mb-5">Portfolio Detail</h2>
+        <h2 class="mb-5">Portfolio Detail</h2>
 
-      <div class="row my-3 animated bounceInDown">
-            <div class="col-lg-8 offset-lg-2 col-sm-8 offset-sm-2 col-12">
-      <!-- 
-        <div class="card animated fadeInDown mx-auto" style="width: 42rem;">
-      -->
-      <div class="card animated fadeInDown mx-auto" >
-          
-            <div id="folioPictureCarousel" class="carousel slide" data-ride="carousel">
-                <div class="carousel-inner">
-                  <div class="carousel-item" *ngFor="let folioPic of portfolio.portfolioFiles" [ngClass]="{'active': isFirstPicture()}">
-                      <!-- 
-                          <img class="card-img-top" style="width: 42rem; height: 28rem;"  src="{{ folioPicUrl + '//' +  folioPic.fileName}}" alt="Portfolio image">
-                      -->
-                      <img class="card-img-top img-fluid" style="height: 28rem;"   src="{{ folioPicUrl + '//' +  folioPic.fileName}}" alt="Portfolio image">
-                  </div>
-                </div>
-                <a class="carousel-control-prev" href="#folioPictureCarousel" role="button" data-slide="prev">
-                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                  <span class="sr-only">Previous</span>
-                </a>
-                <a class="carousel-control-next" href="#folioPictureCarousel" role="button" data-slide="next">
-                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                  <span class="sr-only">Next</span>
-                </a>
-            </div>
-      
-            <div class="card-body">
-                <h5 class="card-title">{{portfolio.project}} <small class="pull-right">{{portfolio.from}} - {{portfolio.to}}</small></h5>
-                <h6 class="card-subtitle mb-2 text-muted">
-                  {{portfolio.company}} - {{portfolio.location}}
-                    <small class="pull-right" >
-                        <a *ngIf="portfolio.url"  
-                        href="{{portfolio.url}}"
-                        data-toggle="tooltip" data-placement="top" title="{{portfolio.url}}">Open Url</a>
-                    </small>
-                </h6>
-                <p>{{portfolio.description}}</p>
-            </div>
-        </div> <!-- #/ card --> 
+        <div class="row my-3 animated bounceInDown">
+            <div class="col-lg-6 offset-lg-3 col-sm-6 offset-sm-3 col-12">
+                <!-- 
+                    <div class="card animated fadeInDown mx-auto" style="width: 42rem;">
+                -->
+                <div class="card animated fadeInDown mx-auto" >
+                
+                    <div id="folioPictureCarousel" class="carousel slide" data-ride="carousel">
+                        <div class="carousel-inner">
+                        <div class="carousel-item" *ngFor="let folioPic of portfolio.portfolioFiles" [ngClass]="{'active': isFirstPicture()}">
+                            <!-- 
+                                <img class="card-img-top" style="width: 42rem; height: 28rem;"  src="{{ folioPicUrl + '//' +  folioPic.fileName}}" alt="Portfolio image">
+                            -->
+                            <img class="card-img-top img-fluid" style="height: 20rem;"   src="{{ folioPicUrl + '//' +  folioPic.fileName}}" alt="Portfolio image">
+                        </div>
+                        </div>
+                        <a class="carousel-control-prev" href="#folioPictureCarousel" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="carousel-control-next" href="#folioPictureCarousel" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                        </a>
+                    </div>
+            
+                    <div class="card-body">
+                        <h5 class="card-title">{{portfolio.project}} <small class="pull-right">{{portfolio.from}} - {{portfolio.to}}</small></h5>
+                        <h6 class="card-subtitle mb-2 text-muted">
+                        {{portfolio.company}} - {{portfolio.location}}
+                            <small class="pull-right" >
+                                <a *ngIf="portfolio.url"  
+                                href="{{portfolio.url}}"
+                                data-toggle="tooltip" data-placement="top" title="{{portfolio.url}}">Open Url</a>
+                            </small>
+                        </h6>
+                        <p>{{portfolio.description}}</p>
+                    </div> <!-- #/ card-body  -->
+                    
+                    <!-- 
+                        footer navigations buttons: portfolio list, edit and delete buttons
+                        weird issue: carousel image disappears when alterify dialog is activated
+                        module is disabled for now until issue is resolve.    
+                    -->
+                    <div  class="card-footer">
+                            <!-- 
+                                link will appear when page is viewed in low res devices such as phones, tablet    
+                            -->
+                             <a class="d-block d-lg-none btn btn-sm btn-outline-secondary mb-2 pull-left" 
+                                [routerLink]="['/portfolio']">
+                                Portfolios
+                            </a>
+              
+                            <div  class="btn-group pull-right">
+                                <!--     
+                                Comment block here:  Passing Route Parameters in Angular Component
+                                Comment block here:  https://angular-2-training-book.rangle.io/handout/routing/query_params.html  
+                                -->        
+                                <a *ngIf="loggedIn()" class="btn btn-sm btn-secondary" [routerLink]="['/portfolio/edit']" 
+                                [queryParams]="{ idToEdit: portfolio.id, 
+                                                project: portfolio.project,   
+                                                description: portfolio.description,   
+                                                from: portfolio.from,
+                                                to: portfolio.to,
+                                                company: portfolio.company,
+                                                location: portfolio.location,
+                                                url: portfolio.url }">
+                                    Edit    
+                                </a>
+                                <button *ngIf="loggedIn()" class="btn btn-sm btn-danger" (click)="deletePortfolio(portfolio.id)">Delete</button>
+                            </div> <!-- /# card-body --> 
+                    </div>
+                    <!-- /# card-footer -->
 
+                </div> <!-- #/ card --> 
             </div>
-      </div>
+        </div>
 
     </div>
 </section>

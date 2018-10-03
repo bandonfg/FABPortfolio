@@ -5,14 +5,16 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="sideNav">
 <a class="navbar-brand " href="#page-top">
 
+  <!-- page header with icon when viewed in low res or small screen size (mobile phone, tablet) -->
   <span class="d-block d-lg-none">
     <img class="img-fluid img-profile rounded-circle " style="height: 2rem; width: 2rem; " src="{{ profilePic }}"  
     alt="My Profile Picture">
-    FAB Portfolio
+    FAB  
   </span>
   
-  <span class="d-none d-lg-block">
-    <img class="img-fluid img-profile rounded-circle mx-auto mb-2" src="{{ profilePic }}"  
+  <!-- page header with icon when viewed in high res or big screen size (laptop, pc, tablet) -->
+  <span class="d-none d-lg-block mx-auto  mb-1">
+    <img class="img-fluid img-profile rounded-circle "  src="{{ profilePic }}"  
       alt="My Profile Picture">
   </span>
 </a>
@@ -24,6 +26,34 @@
 <div class="collapse navbar-collapse" id="navbarSupportedContent">
   
   <ul class="navbar-nav">
+    <li class="nav-item mb-3">
+        <a class="nav-link " href="#" *ngIf="!loggedIn()" [routerLink]="['/member/login']">
+          <small>Sign-In</small>     
+        </a>
+        <div *ngIf="loggedIn()" class="btn-group" >
+                <a class="btn btn-sm btn-outline-light" title="Update Account" href="#">
+                  <i class="fa fa-user-circle"></i> 
+                </a>
+                <a class="btn btn-sm btn-outline-light" href="#" title="Visitor Logs">
+                  <i class="fa fa-users"></i> 
+                </a>
+                <a  href="#" class="btn btn-sm btn-outline-light" (click)="logout()" title="Sign-out">
+                  <i class="fa fa-sign-out"></i>    
+                </a>
+        </div>
+    </li>
+
+
+
+
+
+
+
+
+
+
+
+    
     <li class="nav-item">
       <a class="nav-link " [routerLink]="['home']" fragment="about">About</a>
     </li>
@@ -38,6 +68,8 @@
     </li>
     <li class="nav-item">
       <a class="nav-link " [routerLink]="['portfolio']">Portfolio</a>
-  </ul>
+    <li class="nav-item">
+        <a class="nav-link " [routerLink]="['contact-me']">Contact Me</a>
+    </ul>
 </div>
 </nav>

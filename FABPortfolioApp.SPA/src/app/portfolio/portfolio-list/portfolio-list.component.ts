@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, Routes } from '@angular/router';
 import { first } from 'rxjs/operators';
 
 // import { PaginationModule } from 'ngx-bootstrap';
@@ -12,6 +12,7 @@ import { PortfolioService } from '../../_services/portfolio.service';
 import { AlertifyService } from '../../_services/alertify.service';
 import { Pagination, PaginatedResult } from '../../_models/pagination';
 import { PortfolioFile } from '../../_models/portfolioFile';
+import { AuthService } from '../../_services/auth.service';
 
 @Component({
   selector:     'app-portfolio',
@@ -36,13 +37,16 @@ export class PortfolioListComponent implements OnInit {
   public pageSize: number;
   public currentPage: number;
   public totalPages: number;
-  pageChanged = false;
   pages: any[] = [];
+
+  public pageLoading = true;
+  public companyFilter = '';
 
 
   constructor(
     private http: HttpClient,
     private route: ActivatedRoute,
+    private authService: AuthService,
     private portfolioService: PortfolioService,
     private alertify: AlertifyService
     ) {}
@@ -55,9 +59,12 @@ export class PortfolioListComponent implements OnInit {
     });
     */
     this.getUniquePortfolioCompanies();
-    
-    this.pageSize = 2;
-    this.loadAllPortfolios(1, this.pageSize);
+
+    this.pageSize = 8;
+    this.currentPage = 1;
+    this.companyFilter = '';
+
+    this.loadAllPortfolios(this.currentPage, this.pageSize);
   }
 
   loggedIn() {
@@ -66,8 +73,6 @@ export class PortfolioListComponent implements OnInit {
     return !!token;
   }
 
-
-  
   getUniquePortfolioCompanies() {
     this.portfolioService.getUniquePortfolioCompanies()
     .subscribe( (res: string[]) => {
@@ -78,15 +83,24 @@ export class PortfolioListComponent implements OnInit {
     });
   }
 
+  filterByCompany(company: string) {
+    this.companyFilter = company;
+    this.loadAllPortfolios(this.currentPage, this.pageSize);
+  }
+
   setToPage(pageNumber: number): void {
-    this.pageChanged = true;
+    // display page loading spinner while retrieving data
+    this.pageLoading = true;
     this.loadAllPortfolios(pageNumber, this.pageSize);
-    this.pageChanged = false;
   }
 
   loadAllPortfolios(pageNumber: number, pageSize: number) {
-    this.portfolioService.getPortfolios(pageNumber, pageSize)
+    this.portfolioService.getPortfolios(pageNumber, pageSize, this.companyFilter)
     .subscribe( (res: any) => {
+
+        // stop page loading spinner animation
+        this.pageLoading = false;
+
         console.log('Paging->portfolio-list->loadAllPortfolios()->res' + JSON.stringify(res));
 
         // get the portfolios data
@@ -109,21 +123,10 @@ export class PortfolioListComponent implements OnInit {
       console.log('portfolios loaded.');
 
     }, error => {
-      this.pageChanged = false;
+      // stop page loading spinner animation
+      this.pageLoading = false;
       console.log('portfolio load error: ' + error);
     });
-
-
-    /* paginated code not yet working
-    this.portfolioService.getPortfolios(this.pagination.currentPage, this.pagination.itemPerPage, this.portfolioParams)
-    .subscribe( (res: PaginatedResult<Portfolio[]>) => {
-      this.portfolios = res.results;
-      this.pagination = res.pagination;
-      console.log('portfolios loaded.');
-    }, error => {
-      console.log('portfolio load error: ' + error);
-    });
-    */
 
   }
 
@@ -142,4 +145,8 @@ export class PortfolioListComponent implements OnInit {
       });
     });
   }
+  logout() {
+    this.authService.logout();
+  }
+
 }

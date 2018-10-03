@@ -17,6 +17,9 @@ import { UtilityService } from './_services/utility.service';
 
 // Page components
 import { NavComponent } from './nav/nav.component';
+
+import { ContactMeComponent } from './contact-me/contact-me.component';
+
 import { HomeComponent } from './home/home.component';
 
 // Members
@@ -43,8 +46,8 @@ export function tokenGetter() {
       MemberRegistrationComponent,
       PortfolioListComponent,
       PortfolioDetailComponent,
-      PortfolioCreateComponent
-
+      PortfolioCreateComponent,
+      ContactMeComponent
    ],
    imports: [
       BrowserModule,

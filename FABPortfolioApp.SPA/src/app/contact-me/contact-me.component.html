@@ -1,0 +1,65 @@
+
+<div class="row my-5 animated bounceInDown m-2" >
+  <div class="col-lg-4 offset-lg-4 col-sm-6 offset-sm-4 col-12">
+      <div class="card  border-secondary">
+        <div class="card-header">
+            <h3>Contact Me</h3>
+        </div>
+        <div class="card-body">
+                <fieldset [disabled]="submitted" class="my-2">
+                    <form  [formGroup]="emailForm" (ngSubmit)="sendEmail()" >
+                      <div class="form-group">
+                          <label for="userEmail" class="text-dark font-weight-normal" [ngClass]="{'text-primary font-weight-bold': emailForm.get('userEmail').touched && emailForm.get('userEmail').errors}">Email</label> 
+                          <input formControlName="userEmail" [ngClass]="{'is-invalid': emailForm.get('userEmail').touched && emailForm.get('userEmail').errors}" placeholder="Enter your email address" class="form-control form-control-sm" type="text">
+                          <div *ngIf="emailForm.get('userEmail').touched && emailForm.get('userEmail').errors" class="invalid-feedback">
+                              <div *ngIf="emailForm.get('userEmail').hasError('required')">Your email is required!</div>
+                              <div *ngIf="emailForm.get('userEmail').hasError('email')">Valid email address is required!</div>
+                          </div>
+                      </div>
+                      
+                      <div class="form-group">
+                          <label for="subject" class="text-dark font-weight-normal" [ngClass]="{'text-primary font-weight-bold': emailForm.get('subject').touched && emailForm.get('subject').errors}">Subject</label> 
+                          <input formControlName="subject" [ngClass]="{'is-invalid': emailForm.get('subject').touched && emailForm.get('subject').errors}" 
+                            placeholder="Enter subject of your message" class="form-control form-control-sm" type="text">
+                          <div *ngIf="emailForm.get('subject').touched && emailForm.get('subject').errors" class="invalid-feedback">
+                              <div *ngIf="emailForm.get('subject').hasError('required')">Subject is required!</div>
+                          </div>
+                        </div>
+
+                      
+                      <div class="form-group">
+                        <label for="message" class="text-dark font-weight-normal" [ngClass]="{'text-primary font-weight-bold': emailForm.get('message').touched && emailForm.get('message').errors}">Message</label> 
+                        <textarea formControlName="message" [ngClass]="{'is-invalid': emailForm.get('message').touched && emailForm.get('message').errors}" 
+                          class="form-control form-control-sm" rows="5" placeholder="Enter your message" ></textarea>
+                        <div *ngIf="emailForm.get('message').touched && emailForm.get('message').errors" class="invalid-feedback">
+                            <div *ngIf="emailForm.get('message').hasError('required')">Your message is required!</div>
+                        </div>
+                      </div>
+
+                      <div class="btn-group  pull-right">
+                        <!-- link will appear when page is viewed in low res devices such as phones, tablet     
+                            this is not required from this page  -->
+                        <a class="d-block d-lg-none btn btn-sm btn-outline-secondary mb-2 " 
+                            [routerLink]="['/portfolio']">
+                            Portfolio List
+                        </a>
+                        &nbsp;
+                        <div>
+                            <button  type="submit" [disabled]="emailForm.invalid || loading || submitted"
+                                class="btn btn-sm btn-secondary">
+                                Send Message
+                                <i *ngIf="loading" class="fa fa-spinner fa-spin" style="font-size:20px"></i> 
+                            </button>
+                        </div>
+                      </div>
+                    </form>
+                  </fieldset>
+        </div><!-- card body -->
+      </div> <!-- card -->
+      <!-- 
+        {{ emailForm.status | json }}
+        {{ emailForm.value | json }}
+      -->  
+  </div>
+</div>
+

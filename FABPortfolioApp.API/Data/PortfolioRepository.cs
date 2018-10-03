@@ -14,8 +14,8 @@ namespace FABPortfolioApp.API.Data
     public interface IPortfolioRepository
     {
         // Task<IEnumerable<Portfolio>> GetPortfolios();
-        Task<IEnumerable<Portfolio>> GetPortfolios(int pageNumber, int pageSize);
-        int GetPortfolioCount();
+        Task<IEnumerable<Portfolio>> GetPortfolios(int pageNumber, int pageSize, string companyFilter);
+        int GetPortfolioCount(string companyFilter);
         Task<Portfolio> GetPortfolioById(int id);
         Task<IEnumerable<String>> GetUniquePortfolioCompanyList();
         Task<PortfolioFile> GetPortfolioFileById(int id);
@@ -31,7 +31,6 @@ namespace FABPortfolioApp.API.Data
     {
         private readonly DataContext _context;
 
-        int totalPortfolioCount = 0;
         public PortfolioRepository(DataContext context)
         {
             _context = context;
@@ -44,23 +43,40 @@ namespace FABPortfolioApp.API.Data
             return portfolios; 
         }
          */
-        public async Task<IEnumerable<Portfolio>> GetPortfolios(int pageNumber, int pageSize)
+        public async Task<IEnumerable<Portfolio>> GetPortfolios(int pageNumber, int pageSize, string companyFilter)
         {
-             
+            var portfolios = await _context.Portfolios
+                    .Include(pf => pf.PortfolioFiles ).ToListAsync();
 
-            var portfolios = await 
-                _context.Portfolios
-                        .Include(pf => pf.PortfolioFiles )
-                        .OrderByDescending(o=>o.Id)
-                        .Skip( (pageNumber - 1) * pageSize )
-                        .Take(pageSize)
-                        .ToListAsync();
+            if(string.IsNullOrEmpty(companyFilter))
+            {
+                portfolios = await _context.Portfolios
+                    .Include(pf => pf.PortfolioFiles )
+                    .OrderByDescending( o=>o.To )
+                    .ThenByDescending( p => p.From )
+                    .Skip( (pageNumber - 1) * pageSize )
+                    .Take( pageSize )
+                    .ToListAsync();
+            }
+            else 
+            {
+                portfolios = await _context.Portfolios
+                    .Include(pf => pf.PortfolioFiles )
+                    .Where( f => f.Company == companyFilter ) 
+                    .OrderByDescending( o=>o.To )
+                    .ThenByDescending( p => p.From )
+                    .Skip( (pageNumber - 1) * pageSize )
+                    .Take( pageSize )
+                    .ToListAsync();
+            }
 
             return portfolios; 
         }
 
-        public int GetPortfolioCount() {
-            return  _context.Portfolios.Count();
+        public int GetPortfolioCount(string companyFilter) {
+
+            var folioCount = ( string.IsNullOrEmpty(companyFilter) ) ? _context.Portfolios.Count() : _context.Portfolios.Where( c => c.Company == companyFilter ).Count();;  
+            return  folioCount;
         }
 
 

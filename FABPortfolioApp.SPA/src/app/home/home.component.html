@@ -1,30 +1,27 @@
-
+<!-- 
 <div class="sticky-top alert alert-light pull-right">
-
-    <a href="#" *ngIf="!loggedIn()" class="btn btn-sm btn-outline-secondary pull-right " [routerLink]="['/member//login']">
-      <i class="fa fa-sign-in"></i> Login   
-    </a>
-
-    <div *ngIf="loggedIn()" class="btn-group pull-right" >
-        <button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Welcome {{ this.loggedUser.firstName }}
-        </button>
-        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <a class="dropdown-item" href="#">
-              <i class="fa fa-user-circle"></i> Update Account
-            </a>
-            <a class="dropdown-item" href="#">
-              <i class="fa fa-users"></i> Visitor Logs
-            </a>
-            <div class="dropdown-divider"></div>
-            <a  href="#" class="dropdown-item"  (click)="logout()">
-              <i class="fa fa-sign-out"></i> Logout   
-            </a>
-          </div>
-    </div>
-
-</div>
-
+        <a href="#" *ngIf="!loggedIn()" class="btn btn-sm btn-outline-secondary pull-right " [routerLink]="['/member//login']">
+          <i class="fa fa-sign-in"></i>    
+        </a>
+        <div *ngIf="loggedIn()" class="btn-group pull-right" >
+            <button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Welcome {{ this.loggedUser.firstName }}
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <a class="dropdown-item" href="#">
+                  <i class="fa fa-user-circle"></i> Update Account
+                </a>
+                <a class="dropdown-item" href="#">
+                  <i class="fa fa-users"></i> Visitor Logs
+                </a>
+                <div class="dropdown-divider"></div>
+                <a  href="#" class="dropdown-item"  (click)="logout()">
+                  <i class="fa fa-sign-out"></i> Logout   
+                </a>
+              </div>
+        </div>
+</div>  /# sticky-top 
+-->
 <div class="p-3 p-lg-5 " >
   <section class="resume-section p-3 p-lg-5 d-flex flex-column" id="about">
     
@@ -33,16 +30,18 @@
           <span class="text-primary ">Bandong</span>
       </h2>
 
+      <!-- lead -->
       <div class="subheading mb-3">219 Sitio Balani, Ambonao Calasiao, Pangasinan Philippines 2418 · 
         <a href="mailto:bandz_fab@yahoo.com">bandz_fab@yahoo.com</a>
       </div>
       <div class="resume-item d-flex flex-column flex-md-row mb-0">
-          <div class="resume-content mr-auto">
+          <!-- resume-content -->
+          <div class="lead mr-auto">
               I'm a self-motivated .net developer and technology driven professional. 
     
               I use the following technologies/frameworks to develop line of business applications:<br/> 
               <strong>
-                C#, ASP.Net Web Forms|MVC|Core 2, JavaScript, Angular, BootStrap, VB.Net, VBA, NativeScript with Angular, SQL Server, MS-Access, SQLite<br/> 
+                C#, ASP.Net Core/Core 2 Web API | MVC 5 | Web Forms, JavaScript, Angular 2/5/6, BootStrap 3/4, VB.Net, VBA, NativeScript with Angular, SQL Server, MS-Access, SQLite and MySQL database.<br/> 
               </strong><br/>
               
               I have also found myself working a lot with Angular 2/5/6, Web Services and APIs. 
@@ -65,6 +64,8 @@
                   </a>
                 </li>
                 <li class="list-inline-item  animated fadeInDown delay-2s">
+
+                    
                     <a href="https://github.com/bandonfg" target="_blank" title="view my github repositories">
                       <span class="fa-stack fa-lg">
                           <i class="fa fa-circle fa-stack-2x"></i>

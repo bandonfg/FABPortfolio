@@ -2,9 +2,13 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams, HttpRequest, HttpEvent} from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { UserEmail } from '../_models/userEmail';
+import { environment } from '../../environments/environment';
 
 @Injectable()
 export class UtilityService {
+
+  baseUrl = environment.apiUrl + '/user/email';
 
   constructor(private http: HttpClient) { }
 
@@ -23,6 +27,10 @@ export class UtilityService {
     const options = { headers: headers, params: params, reportProgress: true, };
     const req = new HttpRequest('POST', url, formData, options);
     return this.http.request(req);
+  }
+
+  sendEmail( userEmail: UserEmail  ) {
+    return this.http.post(this.baseUrl, userEmail);
   }
 }
 

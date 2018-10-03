@@ -67,19 +67,19 @@ namespace FABPortfolioApp.API.Controllers
         */
         // [HttpGet("{pageNumber}/{pageSize}", Name="GetPortfolios" )]
         [HttpGet(Name="GetPortfolios" )]
-        public async Task<IActionResult> GetPortfolios(int pageNumber, int pageSize)
+        public async Task<IActionResult> GetPortfolios(int pageNumber, int pageSize, string companyFilter)
         {
-
             if (pageSize <= 0)
-                pageSize = 2;
+                pageSize = 8;
             if (pageNumber <= 0)
                 pageNumber = 1;
 
-            var portfoliosFromRepo = await _repo.GetPortfolios(pageNumber, pageSize);
+            // companyFilter
+            var portfoliosFromRepo = await _repo.GetPortfolios(pageNumber, pageSize, companyFilter );
             // use custom DTos to limit or add fields to display
 
             var portfoliosToReturn = new {
-                TotalCount = _repo.GetPortfolioCount(),
+                TotalCount =  _repo.GetPortfolioCount(companyFilter),
                 TotalPages = Math.Ceiling((double)portfoliosFromRepo.Count() / pageSize),
                 Portfolios = portfoliosFromRepo
             };
@@ -219,6 +219,8 @@ namespace FABPortfolioApp.API.Controllers
                 string webRootPath = _hostingEnvironment.WebRootPath;
                 string newPath = Path.Combine(webRootPath, folderName);
                 string fileName = "";
+                string uniqueGuidFilename = "";
+                string fileExtension = "";
                 string fullPath = "";
 
                 if (!Directory.Exists(newPath))
@@ -227,11 +229,25 @@ namespace FABPortfolioApp.API.Controllers
                 }
                 if (file.Length > 0)
                 {
+                    // retrieve the original filename
                     fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
+
+                    // generate unique filename
+                    uniqueGuidFilename = Convert.ToString(Guid.NewGuid());
+
+                    // get the original file extension
+                    fileExtension = Path.GetExtension(fileName);
+
+                    //fullPath = Path.Combine(newPath, fileName);
+
+                    // set the newly generated guid filename
+                    fileName =  uniqueGuidFilename + fileExtension;
+
                     fullPath = Path.Combine(newPath, fileName);
+
                     using (var stream = new FileStream(fullPath, FileMode.Create))
                     {
-                        file.CopyTo(stream);
+                        await file.CopyToAsync(stream);
                     }
                 }
                 // end of file upload routine //
@@ -240,6 +256,7 @@ namespace FABPortfolioApp.API.Controllers
                 // add file info portfolio file table //
                 PortfolioFile portfolioFileForCreation = new PortfolioFile(); 
                 portfolioFileForCreation.FileName = fileName;
+
 
                 if (id < 1)
                     portfolioFileForCreation.PortfolioId = portfolioIdForUpload;
