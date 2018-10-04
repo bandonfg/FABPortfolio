@@ -10,7 +10,7 @@ import { Portfolio } from '../_models/portfolio';
 @Injectable()
 export class PortfolioListResolver implements Resolve<Portfolio[]> {
     pageNumber = 1;
-    pageSize = 2;
+    pageSize = 8;
     companyFilter = '';
 
     constructor(

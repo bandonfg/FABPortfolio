@@ -23,13 +23,13 @@ export class PortfolioService {
   /////////////////////////////////
   // GET api/portfolio - get all portfolios
 
-  /* orig code without pagination 
+  /* orig code without pagination
   getPortfolios() {
     return this.http.get<Portfolio[]>(this.baseUrl);
   }
   */
 
- getPortfolios(pageNumber: any, pageSize: any, companyFilter: string) {
+  getPortfolios(pageNumber: any, pageSize: any, companyFilter: string) {
 
     const headers = new HttpHeaders();
     headers.append('Content-Type', 'application/json');
@@ -92,7 +92,6 @@ export class PortfolioService {
   deletePortfolioPicture(id: number) {
     console.log('portfolioService->deletePortfolioPicture(id)');
     return this.http.delete(this.baseUrl + '/picture/' + id);
-    
   }
 
 }

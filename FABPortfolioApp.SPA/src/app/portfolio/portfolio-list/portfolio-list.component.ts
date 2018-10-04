@@ -28,7 +28,8 @@ export class PortfolioListComponent implements OnInit {
 
   portfolioParams: any = {};
   portfolios: Portfolio[] = [];
-  pagination: Pagination;
+  
+  // for deletion neils code pagination: Pagination;
 
   // list of companies used by filter dropdown list
   companies: string[] = [];
@@ -145,8 +146,9 @@ export class PortfolioListComponent implements OnInit {
       });
     });
   }
-  logout() {
-    this.authService.logout();
-  }
+
+  // logout() {
+  //    this.authService.logout();
+  // }
 
 }

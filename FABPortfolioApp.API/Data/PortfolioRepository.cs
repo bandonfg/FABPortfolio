@@ -15,6 +15,9 @@ namespace FABPortfolioApp.API.Data
     {
         // Task<IEnumerable<Portfolio>> GetPortfolios();
         Task<IEnumerable<Portfolio>> GetPortfolios(int pageNumber, int pageSize, string companyFilter);
+
+
+
         int GetPortfolioCount(string companyFilter);
         Task<Portfolio> GetPortfolioById(int id);
         Task<IEnumerable<String>> GetUniquePortfolioCompanyList();
@@ -80,7 +83,7 @@ namespace FABPortfolioApp.API.Data
         }
 
 
-         public async Task<IEnumerable<PortfolioFile>> GetPortfolioFilesById(int id)
+        public async Task<IEnumerable<PortfolioFile>> GetPortfolioFilesById(int id)
         {
             var portfolioFiles = await _context.PortfolioFiles.Where( p => p.PortfolioId == id ).ToListAsync();
             return portfolioFiles; 

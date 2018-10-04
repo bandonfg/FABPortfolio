@@ -40,27 +40,30 @@ export class ContactMeComponent implements OnInit {
   }
 
   sendEmail(){
-    console.log('onSubmit -> sendEmail()->' + JSON.stringify(this.emailForm.value));
-    if (this.emailForm.valid) {
-        // show the loading icon
-        this.loading = true;
-        // assign form field values to this.folio
-        this.userEmail = Object.assign({}, this.emailForm.value);
-        console.log('this.userEmail->' + JSON.stringify(this.userEmail));
+    this.alertify.confirm( 'Are you sure you want to send this message?', () => {
+        console.log('onSubmit -> sendEmail()->' + JSON.stringify(this.emailForm.value));
+        if (this.emailForm.valid) {
+            // show the loading icon
+            this.loading = true;
+            // assign form field values to this.folio
+            this.userEmail = Object.assign({}, this.emailForm.value);
+            console.log('this.userEmail->' + JSON.stringify(this.userEmail));
 
-        this.utilService.sendEmail(this.userEmail).subscribe( () => {
-            this.submitted = true;  // form is submitted
-            this.alertify.success('Email successfully sent.');
-        },  error => {
-              this.alertify.error('Error while sending email: ' + error);
-              this.loading = false;
-              this.router.navigate(['/home']);
-        },  () => {
-              // finally
-              // once saved, stop showing busy loading animation icon
-              this.loading = false;
-              this.router.navigate(['/home']);
-        });
-    }
+            this.utilService.sendEmail(this.userEmail).subscribe( () => {
+                this.submitted = true;  // form is submitted
+                this.alertify.success('Email successfully sent.');
+            },  error => {
+                  this.alertify.error('Error while sending email: ' + error);
+                  this.loading = false;
+                  this.router.navigate(['/home']);
+            },  () => {
+                  // finally
+                  // once saved, stop showing busy loading animation icon
+                  this.loading = false;
+                  this.router.navigate(['/home']);
+            });
+        }
+    });
+
   }
 }

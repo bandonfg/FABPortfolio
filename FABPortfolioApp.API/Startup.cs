@@ -114,16 +114,18 @@ namespace FABPortfolioApp.API
             Mapper.Reset();
             services.AddAutoMapper();
             services.AddTransient<Seed>();
-            // repo for login, registration, 
+
+            // register application repositories / service 
+            
             services.AddScoped<IAuthRepository, AuthRepository>();
             services.AddScoped<IUtilService, UtilService>();
+            services.AddScoped<IPortfolioRepository, PortfolioRepository>();
 
 
             // admin related repo: GetUsers, GetUserById, Roles 
             // and User Management service
             //  services.AddScoped<IAdminRepository, AdminRepository>();
 
-            services.AddScoped<IPortfolioRepository, PortfolioRepository>();
 
             // services.AddScoped<LogUserActivity>();
 
@@ -257,7 +259,7 @@ namespace FABPortfolioApp.API
             seeder.SeedPortfolios();
             seeder.SeedUsers();
             // allow any cors type request
-            app.UseCors(x => x.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
+            app.UseCors(x => x.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod().AllowCredentials() );
             app.UseAuthentication();
 
             // this is required to enable kestrel to find 

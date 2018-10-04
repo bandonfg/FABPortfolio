@@ -1,0 +1,71 @@
+
+<div *ngIf="loggedIn()" class="row my-5 animated bounceInDown m-2" >
+  <div class="col-lg-8 offset-lg-2 col-sm-8 offset-sm-2 col-12">
+      <div class="card  border-secondary">
+        <div class="card-header">
+            <h3>        
+                <i *ngIf="pageLoading" class="fa fa-refresh fa-spin"></i>
+                Visitor Log
+            </h3>
+        </div>
+        <div class="card-body">
+            <table class="table table-sm table-striped table-hover table-responsive-sm">
+                <tr>
+                    <th>
+                        IP Address
+                    </th>
+                    <th>
+                        City
+                    </th>
+                    <th>
+                        Country
+                    </th>
+                    <th>
+                        Timezone
+                    </th>
+                    <th>
+                        Date Logged
+                    </th>
+                    <th>            
+                    </th>
+            
+                </tr>
+                <tr *ngFor="let log of logs">
+                    <td>{{log.ipAddress}}</td>
+                    <td>{{log.city}}</td>
+                    <td>{{log.country}}</td>
+                    <td>{{log.timezone}}</td>
+                    <td>{{log.dateLogged | date:'medium'}}</td>
+                    <td><button (click)="deleteLog(log.id)" class="btn btn-sm btn-outline-danger"><span class="fa fa-minus-square"></span></button></td>
+                </tr>
+            </table>
+
+
+            <!-- Log Paging -->
+            <nav *ngIf="totalItems > pageSize" aria-label="Portfolio page navigation ">
+                <ul class="pagination  justify-content-center">
+                    <li [class.disabled]="currentPage == 1" class="page-item">
+                        <a (click)="setToPage(currentPage - 1 )" class="page-link" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                        <span class="sr-only">Previous</span>
+                        </a>
+                    </li>
+
+                    <li *ngFor="let page of pages"  class="page-item"  [ngClass]="{'active': currentPage === page}" >
+                        <a (click)="setToPage(page)" class="page-link" > {{page}}</a>
+                    </li>
+
+                    <li [class.disabled]="currentPage == totalItems" class="page-item">
+                        <a  (click)="setToPage(currentPage + 1 )" class="page-link" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                        <span class="sr-only">Next</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+        </div><!-- card body -->
+      </div> <!-- card -->
+  </div>
+</div>
+

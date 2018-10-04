@@ -15,6 +15,10 @@ namespace FABPortfolioApp.API.Data
         public DbSet<Portfolio> Portfolios {get; set;}
         public DbSet<PortfolioFile> PortfolioFiles {get; set;}
 
+        // 2nd migrations: site visitor log table
+        public DbSet<Log> Logs {get; set;}
+
+
         protected override void OnModelCreating(ModelBuilder builder) {
                base.OnModelCreating(builder);
 
