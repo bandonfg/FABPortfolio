@@ -59,8 +59,9 @@ export class LogService {
 
 
   // POST         api/log
-  // Description  create or add visitor log. Data will be provided by GeoLite db.
+  // Description  create or add visitor log. Location Data will be provided by GeoLite db.
   createLog() {
+      // error occurs when passing not passing value(s) hence the empty string
       return this.http.post(this.baseUrl, '');
   }
   ////////////////////////////////////////////////////////////////////

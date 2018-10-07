@@ -31,7 +31,7 @@
           <small>Sign-In</small>     
         </a>
         <div *ngIf="loggedIn()" class="btn-group" >
-                <a class="btn btn-sm btn-outline-light" title="Update Account" href="#">
+                <a class="btn btn-sm btn-outline-light" title="Update Password" [routerLink]="['member/password']">
                   <i class="fa fa-user-circle"></i> 
                 </a>
                 <a class="btn btn-sm btn-outline-light" [routerLink]="['log']" title="Visitor Logs">

@@ -15,6 +15,7 @@ import { PortfolioListResolver } from './_resolvers/portfolio-list.resolver';
 import { PortfolioListComponent } from './portfolio/portfolio-list/portfolio-list.component';
 import { PortfolioDetailComponent } from './portfolio/portfolio-detail/portfolio-detail.component';
 import { PortfolioCreateComponent } from './portfolio/portfolio-create/portfolio-create.component';
+import { MemberChangePWComponent } from './members/member-change-pw/member-change-pw.component';
 
 
 export const appRoutes: Routes = [
@@ -38,7 +39,9 @@ export const appRoutes: Routes = [
         children: [
             {path: 'portfolio/create', component: PortfolioCreateComponent},
             {path: 'portfolio/edit', component: PortfolioCreateComponent},
-            {path: 'log', component: LogComponent}
+            {path: 'log', component: LogComponent},
+            {path: 'member/password', component: MemberChangePWComponent}
+
         ]
     },
     {path: '**', redirectTo: '', pathMatch: 'full'},

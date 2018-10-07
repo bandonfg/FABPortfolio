@@ -36,7 +36,7 @@ export class MemberRegistrationComponent implements OnInit {
       lastName:   ['', [ Validators.required, Validators.minLength(2), Validators.maxLength(20)]],
       username:   [''],
       email:      ['', [ Validators.required, Validators.email]],
-      password:   ['', [ Validators.required, Validators.minLength(6), Validators.maxLength(20) ]],
+      password:   ['', [ Validators.required, Validators.minLength(6), Validators.maxLength(8) ]],
       confirmPassword:  ['', Validators.required]
 
     }, {

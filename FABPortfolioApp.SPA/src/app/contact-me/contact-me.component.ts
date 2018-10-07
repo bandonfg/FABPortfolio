@@ -49,19 +49,25 @@ export class ContactMeComponent implements OnInit {
             this.userEmail = Object.assign({}, this.emailForm.value);
             console.log('this.userEmail->' + JSON.stringify(this.userEmail));
 
-            this.utilService.sendEmail(this.userEmail).subscribe( () => {
-                this.submitted = true;  // form is submitted
-                this.alertify.success('Email successfully sent.');
-            },  error => {
-                  this.alertify.error('Error while sending email: ' + error);
-                  this.loading = false;
-                  this.router.navigate(['/home']);
-            },  () => {
-                  // finally
-                  // once saved, stop showing busy loading animation icon
-                  this.loading = false;
-                  this.router.navigate(['/home']);
+            // navigate to home page
+            this.router.navigate(['/home']).then( () => {
+                this.alertify.message('Sending email...');
+                // then execute sendEmail routine
+                this.utilService.sendEmail(this.userEmail).subscribe( () => {
+                  this.submitted = true;  // form is submitted
+                  this.alertify.success('Email successfully sent.');
+                },  error => {
+                    this.alertify.error('Error while sending email: ' + error);
+                    this.loading = false;
+                    this.router.navigate(['/home']);
+                },  () => {
+                    // finally
+                    // once saved, stop showing busy loading animation icon
+                    this.loading = false;
+                });
             });
+
+
         }
     });
 

@@ -1,0 +1,88 @@
+
+<div class="row my-5 animated bounceInDown m-2" >
+  <div class="col-lg-4 offset-lg-4 col-sm-6 offset-sm-4 col-12">
+      <div class="card  border-secondary">
+        <div class="card-header">
+            <h3>Update Password</h3>
+        </div>
+        <div class="card-body">
+
+                <fieldset [disabled]="submitted" class="my-2">
+                    <form  [formGroup]="userPWForm" (ngSubmit)="updateUserPassword()" >
+                        <!-- Username/Email -->    
+                        <div class="form-group">
+                            <label for="username" class="text-dark font-weight-normal" [ngClass]="{'text-primary font-weight-bold': userPWForm.get('username').touched && userPWForm.get('username').errors}">Email</label> 
+                            <input readonly formControlName="username" [ngClass]="{'is-invalid': userPWForm.get('username').touched && userPWForm.get('username').errors}" placeholder="Enter your email address" class="form-control form-control-sm" type="text">
+                            <div *ngIf="userPWForm.get('username').touched && userPWForm.get('username').errors" class="invalid-feedback">
+                                <div *ngIf="userPWForm.get('username').hasError('required')">Your email is required!</div>
+                                <div *ngIf="userPWForm.get('username').hasError('email')">Valid email address is required!</div>
+                            </div>
+                        </div>
+                      
+                        <!-- Current Password -->
+                        <div class="form-group">
+                            <label for="currentPassword" class="text-dark font-weight-normal" [ngClass]="{'text-primary font-weight-bold': userPWForm.get('currentPassword').touched && userPWForm.get('currentPassword').errors}">Current Password</label> 
+                            <input type="password" formControlName="currentPassword" [ngClass]="{'is-invalid': userPWForm.get('currentPassword').touched && userPWForm.get('currentPassword').errors}" 
+                                placeholder="Enter your current password" class="form-control form-control-sm">
+                            <div *ngIf="userPWForm.get('currentPassword').touched && userPWForm.get('currentPassword').errors" class="invalid-feedback">
+                                <div *ngIf="userPWForm.get('currentPassword').hasError('minlength') || userPWForm.get('currentPassword').hasError('maxlength')">Password must be min of 6 and max of 20 characters</div>
+                                <div *ngIf="userPWForm.get('currentPassword').hasError('required')">Current Password is required!</div>
+                            </div>
+                        </div>
+
+                        <!-- New and Verify Password -->
+                        <div class="form-group">
+                            <label for="newPassword" class="text-dark font-weight-normal" [ngClass]="{'text-primary font-weight-bold': userPWForm.get('newPassword').touched && userPWForm.get('newPassword').errors}">New Password</label>
+                            <input type="password" 
+                                formControlName="newPassword"
+                                [ngClass]="{ 'is-invalid': userPWForm.get('newPassword').touched && userPWForm.get('newPassword').errors }" 
+                                placeholder="enter new password" 
+                                class="form-control mb-1">
+    
+                            <div *ngIf="userPWForm.get('newPassword').touched && userPWForm.get('newPassword').errors" class="invalid-feedback">
+                                <div *ngIf="userPWForm.get('newPassword').hasError('minlength') || userPWForm.get('newPassword').hasError('maxlength')">Password must be min of 6 and max of 20 characters</div>
+                                <div *ngIf="userPWForm.get('newPassword').hasError('required')">Password is required!</div>
+                            </div>
+
+                            <input type="password" 
+                                formControlName="confirmPassword"
+                                [ngClass]="{ 'is-invalid':  userPWForm.get('confirmPassword').errors && userPWForm.get('confirmPassword').touched || userPWForm.get('confirmPassword').touched &&  userPWForm.hasError('mismatch') }" 
+                                placeholder="verify password" 
+                                class="form-control">
+    
+                            <div *ngIf=" userPWForm.get('confirmPassword').touched && userPWForm.get('confirmPassword').errors" class="invalid-feedback">
+                                <div *ngIf="userPWForm.get('confirmPassword').hasError('required')">Confirm password is required!</div>
+                            </div>
+    
+                            <div class="invalid-feedback" 
+                                *ngIf="userPWForm.hasError('mismatch') && userPWForm.get('confirmPassword').touched">Password must match</div>
+    
+                        </div>    
+
+                      <div class="btn-group  pull-right">
+                        <!-- link will appear when page is viewed in low res devices such as phones, tablet     
+                            this is not required from this page  -->
+                        <a class="d-block d-lg-none btn btn-sm btn-outline-secondary mb-2 " 
+                            [routerLink]="['/home']">
+                            Cancel
+                        </a>
+                        &nbsp;
+                        <div>
+                            <button  type="submit" [disabled]="userPWForm.invalid || loading || submitted"
+                                class="btn btn-sm btn-secondary">
+                                Update Password
+                                <i *ngIf="loading" class="fa fa-spinner fa-spin" style="font-size:20px"></i> 
+                            </button>
+                        </div>
+                      </div>
+                    </form>
+                  </fieldset>
+        </div><!-- card body -->
+      </div> <!-- card -->
+      <!-- 
+        {{ userPWForm.status | json }}
+        {{ userPWForm.value | json }}
+      -->  
+  </div>
+</div>
+

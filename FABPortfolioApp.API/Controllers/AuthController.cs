@@ -55,6 +55,34 @@ namespace FABPortfolioApp.API.Controllers
 
             return BadRequest(result.Errors);
         }
+        [Authorize]
+        [HttpPost("password")]
+        public async Task<IActionResult> UpdatePassword(UserPWForUpdateDto userPWForUpdateDto)
+        {
+            // verify username/email
+            var user = await _userManager.FindByNameAsync(userPWForUpdateDto.Username);
+
+            IdentityResult result = await _userManager.ChangePasswordAsync(user, userPWForUpdateDto.CurrentPassword, userPWForUpdateDto.NewPassword);
+ 
+            if (!result.Succeeded)
+            {
+                return BadRequest(result.Errors);
+            }
+ 
+            return Ok();
+
+
+            /* 
+            // update current password to new password    
+            var userPWUpdateResult = await _userManager.ChangePasswordAsync(user, userPWForUpdateDto.CurrentPassword, userPWForUpdateDto.NewPassword );
+            if (userPWUpdateResult.Succeeded)
+            {
+                return Ok("Password successfully updated!");
+            }
+            return BadRequest("Failed to update password due to error(s) : " + userPWUpdateResult.Errors );
+            */
+        }
+
 
         [HttpPost("login")]
         public async Task<IActionResult> Login(UserForLoginDto userForLoginDto)
@@ -67,6 +95,7 @@ namespace FABPortfolioApp.API.Controllers
 
             var result = await _signInManager
                 .CheckPasswordSignInAsync(user, userForLoginDto.Password, false);
+                
 
             // throw new Exception("var result Ok");
 

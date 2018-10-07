@@ -34,6 +34,7 @@ import { HomeComponent } from './home/home.component';
 // Members
 import { LoginComponent } from './login/login.component';
 import { MemberRegistrationComponent } from './members/member-registration/member-registration.component';
+import { MemberChangePWComponent } from './members/member-change-pw/member-change-pw.component';
 
 // Portfolio
 import { PortfolioListResolver } from './_resolvers/portfolio-list.resolver';
@@ -54,6 +55,7 @@ export function tokenGetter() {
       HomeComponent,
       LoginComponent,
       MemberRegistrationComponent,
+      MemberChangePWComponent,
       PortfolioListComponent,
       PortfolioDetailComponent,
       PortfolioCreateComponent,

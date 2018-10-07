@@ -31,9 +31,9 @@
                                 class="form-control"
                                 placeholder="Enter your last name">
 
-                        <div *ngIf="f.lastName.touched && f.lastName.errors" class="invalid-feedback">
-                            <div *ngIf="f.lastName.errors.required">Your last name is required!</div>
-                            <div *ngIf="f.lastName.errors.minlength || f.lastName.errors.maxlength">Last Name must be min of 2 and max of 20 characters</div>
+                        <div *ngIf="regForm.get('lastName').touched  && regForm.get('lastName').errors" class="invalid-feedback">
+                            <div *ngIf="regForm.get('lastName').hasError('required')">Your last name is required!</div>
+                            <div *ngIf="regForm.get('lastName').hasError('minlength') || regForm.get('lastName').hasError('maxlength')">Last Name must be min of 2 and max of 20 characters</div>
                         </div>
                     </div>
                         
@@ -42,9 +42,9 @@
                         <label for="email">Email</label>
                         <input type="email" [ngClass]="{ 'is-invalid': regForm.get('email').touched && f.email.errors }" formControlName="email" class="form-control" placeholder="email@gmail.com">
 
-                        <div *ngIf="regForm.get('email').touched && f.email.errors" class="invalid-feedback">
-                                <div *ngIf="f.email.errors.email">Please enter a valid email address</div>
-                                <div *ngIf="f.email.errors.required">Your email is required!</div>
+                        <div *ngIf="regForm.get('email').touched && regForm.get('email').errors" class="invalid-feedback">
+                                <div *ngIf="regForm.get('email').hasError('email')">Please enter a valid email address</div>
+                                <div *ngIf="regForm.get('email').hasError('required')">Your email is required!</div>
                         </div>
                     </div>
                     
@@ -56,9 +56,9 @@
                             placeholder="enter password" 
                             class="form-control mb-1">
 
-                        <div *ngIf="f.password.touched && f.password.errors" class="invalid-feedback">
-                                <div *ngIf="f.password.errors.minlength || f.password.errors.maxlength">Password must be min of 6 and max of 20 characters</div>
-                                <div *ngIf="f.password.errors.required">Password is required!</div>
+                        <div *ngIf="regForm.get('password').touched && regForm.get('password').errors" class="invalid-feedback">
+                                <div *ngIf="regForm.get('password').hasError('minlength') || regForm.get('password').hasError('maxlength')">Password must be min of 6 and max of 20 characters</div>
+                                <div *ngIf="regForm.get('password').hasError('required')">Password is required!</div>
                         </div>
 
                         <input type="password" 

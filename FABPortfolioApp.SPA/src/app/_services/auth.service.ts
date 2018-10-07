@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpHeaders, HttpRequest } from '@angular/common/http';
 import { Router } from '../../../node_modules/@angular/router';
 import {BehaviorSubject} from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -8,6 +8,7 @@ import { User } from '../_models/user';
 
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { AlertifyService } from './alertify.service';
+import { UserPW } from '../_models/user-pw';
 
 @Injectable({
   providedIn: 'root'
@@ -43,6 +44,18 @@ export class AuthService {
     return this.http.post(this.baseUrl + 'register', user);
   }
 
+  // PUT          api/auth/password
+  // Description  user after login update password self service
+  //              userPW: username, currentPassword, password
+  updatePassword(userPW: UserPW) {
+    const url = this.baseUrl + 'password';
+    const params = new HttpParams();
+    const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + localStorage.getItem('token'), });
+    const options = { headers: headers, params: params };
+    const req = new HttpRequest('POST', url, userPW, options);
+    return this.http.request(req);
+  }
+
   loggedIn() {
     const token = localStorage.getItem('token');
     return !this.jwtHelper.isTokenExpired(token);
@@ -68,5 +81,5 @@ export class AuthService {
     });
     return isMatch;
   }
-  
+
 }

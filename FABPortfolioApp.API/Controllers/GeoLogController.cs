@@ -76,7 +76,7 @@ namespace FABPortfolioApp.API.Controllers
             using (var reader = new DatabaseReader(_hostingEnvironment.ContentRootPath + "\\Data\\GeoLog\\GeoLite2-City.mmdb"))
             {
                 // for  local dev test Determine the IP Address of the request
-                // var ipAddress = "180.255.43.125";
+                // var ipAddress = "180.255.44.125";
 
                 // get user/visitor ip address
                 var ipAddress = HttpContext.Connection.RemoteIpAddress;
