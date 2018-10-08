@@ -108,10 +108,11 @@ namespace FABPortfolioApp.API.Data
 
                 using (var emailMessage = new MailMessage())
                 {
-                    emailMessage.To.Add(new MailAddress(userEmail.UserEmail));
-                    emailMessage.From = new MailAddress(_configuration["Email:Email"]);
-                    emailMessage.Subject = userEmail.Subject;
-                    emailMessage.Body = userEmail.Message;
+                    // userEmail.UserEmail
+                    emailMessage.To.Add(new MailAddress( "bandz_fab@hotmail.com" ));
+                    emailMessage.From = new MailAddress( _configuration["Email:Email"] );
+                    emailMessage.Subject =  "FABPortfolio Site Inquiry : " + userEmail.Subject;
+                    emailMessage.Body = "From : " + userEmail.UserEmail + " Message : " + userEmail.Message;
 
                     client.Send(emailMessage);
                 }
